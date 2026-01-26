@@ -1,0 +1,10 @@
+rootProject.name = 'ISEN-Craft'
+
+include 'hub'
+findProject(':hub')?.name = 'ISEN-Hub'
+
+include 'proxy'
+findProject(':proxy')?.name = 'ISEN-Proxy'
+
+include 'api'
+findProject(':api')?.name = 'api'

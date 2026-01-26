@@ -1,0 +1,27 @@
+name: ISEN-Hub
+version: '${version}'
+main: fr.isen.hub.HubPlugin
+api-version: 1.21
+author: ISENLabs
+
+dependencies:
+  server:
+    PlaceholderAPI:
+      load: BEFORE
+      required: false
+
+commands:
+  ihub:
+    description: "Hub managment"
+    usage: "/ihub [args]"
+  spawn:
+    description: "Spawn command"
+    usage: "/spawn"
+
+permissions:
+  hub.admin:
+    description: "Managment command permission"
+    default: op
+  hub.bypass:
+    description: "Bypass hub protections"
+    default: op

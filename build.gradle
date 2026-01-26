@@ -1,0 +1,58 @@
+plugins {
+    id 'java'
+    id "com.github.johnrengelman.shadow" version "8.1.1" apply false
+}
+
+subprojects {
+    apply plugin: 'java'
+
+    group = "fr.isen.${project.name}"
+    version = '1.0-SNAPSHOT'
+
+    repositories {
+        mavenCentral()
+        maven {
+            name = "papermc-repo"
+            url = "https://repo.papermc.io/repository/maven-public/"
+        }
+        maven {
+            name = "sonatype"
+            url = "https://oss.sonatype.org/content/groups/public/"
+        }
+        maven {
+            url = 'https://repo.extendedclip.com/releases/'
+        }
+    }
+
+    java {
+        toolchain.languageVersion = JavaLanguageVersion.of(21)
+    }
+
+    tasks.withType(JavaCompile).configureEach {
+        options.encoding = 'UTF-8'
+    }
+
+    processResources {
+        def props = [version: version]
+        inputs.properties props
+        filteringCharset 'UTF-8'
+
+        filesMatching(['plugin.yml', 'bungee.yml']) {
+            expand props
+        }
+    }
+}
+
+configure(subprojects.findAll { it.name != 'api' }) {
+    apply plugin: 'com.github.johnrengelman.shadow'
+
+    dependencies {
+        implementation project(':api')
+    }
+
+    tasks.shadowJar {
+        archiveClassifier.set('')
+    }
+
+    tasks.build.dependsOn tasks.shadowJar
+}
