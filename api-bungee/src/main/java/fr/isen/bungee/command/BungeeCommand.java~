@@ -1,0 +1,4 @@
+package fr.isen.bungee.command;
+
+public class BungeeCommand {
+}
