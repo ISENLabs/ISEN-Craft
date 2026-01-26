@@ -4,7 +4,7 @@ import fr.isen.hub.HubPlugin;
 import fr.isen.hub.command.HubCommand;
 import fr.isen.hub.command.SpawnCommand;
 import fr.isen.hub.listeners.VoidListener;
-import fr.isen.hub.utils.MessageUtils;
+import fr.isen.paper.utils.MessageUtils;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;

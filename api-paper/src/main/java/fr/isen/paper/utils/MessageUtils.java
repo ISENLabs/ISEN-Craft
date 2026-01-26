@@ -1,4 +1,4 @@
-package fr.isen.hub.utils;
+package fr.isen.paper.utils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,7 +17,7 @@ public class MessageUtils {
         return text.stream().map(MessageUtils::color).collect(Collectors.toList());
     }
 
-    private String p(Player player, String text) {
+    public static String p(Player player, String text) {
         return PlaceholderAPI.setPlaceholders(player, text);
     }
 

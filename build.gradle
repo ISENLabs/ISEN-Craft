@@ -6,7 +6,11 @@ plugins {
 subprojects {
     apply plugin: 'java'
 
-    group = "fr.isen.${project.name}"
+    if (project.name.startsWith('api-')) {
+        group = "fr.isen.${project.name.replace('api-', '')}"
+    } else {
+        group = "fr.isen.${project.name}"
+    }
     version = '1.0-SNAPSHOT'
 
     repositories {
@@ -20,6 +24,7 @@ subprojects {
             url = "https://oss.sonatype.org/content/groups/public/"
         }
         maven {
+            name = 'extendedclip-repo'
             url = 'https://repo.extendedclip.com/releases/'
         }
     }
@@ -43,11 +48,11 @@ subprojects {
     }
 }
 
-configure(subprojects.findAll { it.name != 'api' }) {
+configure(subprojects.findAll { !it.name.startsWith('api-') }) {
     apply plugin: 'com.github.johnrengelman.shadow'
 
     dependencies {
-        implementation project(':api')
+        implementation project(':api-common')
     }
 
     tasks.shadowJar {

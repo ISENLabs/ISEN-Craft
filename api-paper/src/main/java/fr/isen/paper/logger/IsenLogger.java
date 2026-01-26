@@ -1,26 +1,22 @@
-package fr.isen.hub.utils;
+package fr.isen.paper.logger;
 
-import fr.isen.hub.HubPlugin;
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.*;
 
-public class Logger {
+public class IsenLogger {
 
-    private HubPlugin plugin;
-    private final String name;
-
-    private final Boolean default_policy;
-
+    private final String pluginName;
+    private final Boolean defaultPolicy;
     private final Map<String, Boolean> prefixPolicies;
     private final Map<String, Integer> prefixColors;
     private final List<String> colors;
 
-    public Logger(HubPlugin plugin) {
-        this.plugin = plugin;
-        this.name = plugin.getName();
+    public IsenLogger(JavaPlugin plugin) {
+        this.pluginName = plugin.getName();
 
-        this.default_policy = true;
+        this.defaultPolicy = true;
         this.prefixPolicies = new HashMap<>();
         this.prefixColors = new HashMap<>();
         this.colors = Arrays.asList(
@@ -28,13 +24,12 @@ public class Logger {
         );
     }
 
-
     private Integer getRandomColor() {
         return (int) (Math.random() * colors.size());
     }
 
     private Boolean checkPolicy(String prefix) {
-        return prefixPolicies.getOrDefault(prefix, default_policy);
+        return prefixPolicies.getOrDefault(prefix, defaultPolicy);
     }
 
     public void log(String message, String prefix) {
@@ -45,9 +40,7 @@ public class Logger {
             }
 
             Bukkit.getConsoleSender().sendMessage(
-                    "[" + name + "][" +
-                            prefix.toUpperCase() +
-                            "] " +
+                    "[" + pluginName + "][" + prefix.toUpperCase() + "] " +
                             colors.get(prefixColors.get(key)) +
                             message
             );
@@ -55,7 +48,7 @@ public class Logger {
     }
 
     public void log(String message) {
-        Bukkit.getConsoleSender().sendMessage("[" + name + "] " + message);
+        Bukkit.getConsoleSender().sendMessage("[" + pluginName + "] " + message);
     }
 
     public void disable(String prefix) {

@@ -1,4 +1,4 @@
-package fr.isen.hub.utils;
+package fr.isen.paper.utils;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
