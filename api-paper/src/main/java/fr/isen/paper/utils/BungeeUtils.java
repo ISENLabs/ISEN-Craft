@@ -1,7 +1,7 @@
-package fr.isen.hub.utils;
+package fr.isen.paper.utils;
 
-import fr.isen.hub.HubPlugin;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -9,9 +9,9 @@ import java.io.IOException;
 
 public class BungeeUtils {
 
-    private final HubPlugin plugin;
+    private final JavaPlugin plugin;
 
-    public BungeeUtils(HubPlugin plugin) {
+    public BungeeUtils(JavaPlugin plugin) {
         this.plugin = plugin;
 
         plugin.getServer().getMessenger().registerOutgoingPluginChannel(plugin, "BungeeCord");

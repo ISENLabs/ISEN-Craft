@@ -1,12 +1,12 @@
 package fr.isen.hub.command;
 
 import fr.isen.hub.managers.HubManager;
-import fr.isen.hub.managers.command.ICommand;
-import fr.isen.hub.utils.MessageUtils;
+import fr.isen.paper.command.IsenCommand;
+import fr.isen.paper.utils.MessageUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class SpawnCommand extends ICommand {
+public class SpawnCommand extends IsenCommand {
 
     public HubManager manager;
 

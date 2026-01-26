@@ -1,13 +1,13 @@
 package fr.isen.hub.command.args;
 
 import fr.isen.hub.command.HubCommand;
-import fr.isen.hub.managers.command.ICommandArgument;
-import fr.isen.hub.utils.MessageUtils;
+import fr.isen.paper.command.IsenCommandArgument;
+import fr.isen.paper.utils.MessageUtils;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class SetSpawnArg implements ICommandArgument {
+public class SetSpawnArg implements IsenCommandArgument {
 
     private final HubCommand parent;
 

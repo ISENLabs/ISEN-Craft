@@ -2,10 +2,10 @@ package fr.isen.hub.command;
 
 import fr.isen.hub.command.args.SetSpawnArg;
 import fr.isen.hub.managers.HubManager;
-import fr.isen.hub.managers.command.ICommand;
+import fr.isen.paper.command.IsenCommand;
 import org.bukkit.command.CommandSender;
 
-public class HubCommand extends ICommand {
+public class HubCommand extends IsenCommand {
 
     public HubManager manager;
 

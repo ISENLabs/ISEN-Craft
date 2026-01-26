@@ -1,33 +1,30 @@
-package fr.isen.hub.managers.command;
+package fr.isen.paper.command;
 
-import fr.isen.hub.utils.MessageUtils;
+import fr.isen.paper.utils.MessageUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
-public abstract class ICommand implements CommandExecutor, TabCompleter {
+public abstract class IsenCommand implements CommandExecutor, TabCompleter {
 
-    private final Map<String, ICommandArgument> subCommands = new HashMap<>();
+    private final Map<String, IsenCommandArgument> subCommands = new HashMap<>();
     private final String permission;
 
-    public ICommand() {
+    public IsenCommand() {
         this.permission = null;
     }
 
-    public ICommand(String permission) {
+    public IsenCommand(String permission) {
         this.permission = permission;
     }
 
-    protected void registerArgument(ICommandArgument subCommand) {
+    protected void registerArgument(IsenCommandArgument subCommand) {
         subCommands.put(subCommand.getName().toLowerCase(), subCommand);
     }
 
@@ -47,7 +44,7 @@ public abstract class ICommand implements CommandExecutor, TabCompleter {
 
         String subName = args[0].toLowerCase();
         if (subCommands.containsKey(subName)) {
-            ICommandArgument sc = subCommands.get(subName);
+            IsenCommandArgument sc = subCommands.get(subName);
 
             if (sc.getPermission() != null && !sender.hasPermission(sc.getPermission())) {
                 MessageUtils.sendMessage(sender, "&cTu n'as pas la permission.");

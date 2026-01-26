@@ -2,10 +2,9 @@ package fr.isen.hub.managers;
 
 import fr.isen.hub.HubPlugin;
 import fr.isen.hub.listeners.NavigationListener;
-import fr.isen.hub.utils.BungeeUtils;
-import fr.isen.hub.utils.ItemBuilder;
-import fr.isen.hub.utils.MessageUtils;
-import me.clip.placeholderapi.PlaceholderAPI;
+import fr.isen.paper.utils.BungeeUtils;
+import fr.isen.paper.utils.ItemBuilder;
+import fr.isen.paper.utils.MessageUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -41,7 +40,7 @@ public class NavigationManager extends IManager{
     public void openMenu(Player player) {
         Inventory inv = Bukkit.createInventory(null, 27, "§7ISEN - Menu");
 
-        String survieCount = PlaceholderAPI.setPlaceholders(player, "%bungee_survie%");
+        String survieCount = MessageUtils.p(player, "%bungee_survie%");
         ItemStack survivalItem = new ItemBuilder(Material.DIAMOND_HOE)
                 .name("&a&lSurvie")
                 .lore(
@@ -60,7 +59,7 @@ public class NavigationManager extends IManager{
                 .hideAllAttributes()
                 .build();
 
-        String creatifCount = PlaceholderAPI.setPlaceholders(player, "%bungee_creatif%");
+        String creatifCount = MessageUtils.p(player, "%bungee_creatif%");
         ItemStack pvpItem = new ItemBuilder(Material.GRASS_BLOCK)
                 .name("&9&lCréatif")
                 .lore(
