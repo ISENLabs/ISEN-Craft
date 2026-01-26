@@ -1,0 +1,4 @@
+name: ISEN-Proxy
+main: fr.isen.proxy.ProxyPlugin
+version: ${version}
+author: ISENLabs

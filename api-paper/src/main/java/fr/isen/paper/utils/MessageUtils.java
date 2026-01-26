@@ -3,6 +3,8 @@ package fr.isen.paper.utils;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import fr.isen.common.command.IsenSender;
+import fr.isen.paper.command.PaperSender;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -32,6 +34,13 @@ public class MessageUtils {
         sender.sendMessage(color(text));
     }
     public static void sendMessage(CommandSender sender, List<String> text) {
+        text.forEach(t -> sendMessage(sender, t));
+    }
+
+    public static void sendMessage(PaperSender sender, String text) {
+        sender.sendMessage(color(text));
+    }
+    public static void sendMessage(PaperSender sender, List<String> text) {
         text.forEach(t -> sendMessage(sender, t));
     }
 

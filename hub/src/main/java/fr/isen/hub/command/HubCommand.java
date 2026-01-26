@@ -1,11 +1,11 @@
 package fr.isen.hub.command;
 
+import fr.isen.common.command.IsenCommand;
 import fr.isen.hub.command.args.SetSpawnArg;
 import fr.isen.hub.managers.HubManager;
-import fr.isen.paper.command.IsenCommand;
-import org.bukkit.command.CommandSender;
+import fr.isen.paper.command.PaperSender;
 
-public class HubCommand extends IsenCommand {
+public class HubCommand extends IsenCommand<PaperSender> {
 
     public HubManager manager;
 
@@ -18,7 +18,7 @@ public class HubCommand extends IsenCommand {
     }
 
     @Override
-    public void run(CommandSender sender, String[] args) {
+    public void run(PaperSender sender, String[] args) {
         manager.sendHelp(sender);
     }
 }

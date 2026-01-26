@@ -1,10 +1,11 @@
 package fr.isen.hub;
 
+import fr.isen.common.command.IsenCommand;
 import fr.isen.hub.managers.HubManager;
 import fr.isen.hub.managers.NavigationManager;
 import fr.isen.hub.managers.ProtectionsManager;
-import fr.isen.paper.command.IsenCommand;
-import fr.isen.paper.logger.IsenLogger;
+import fr.isen.paper.command.PaperCommandBridge;
+import fr.isen.paper.logger.PaperLogger;
 import fr.isen.paper.utils.BungeeUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
@@ -16,7 +17,7 @@ public class HubPlugin extends JavaPlugin {
     private HubManager hubManager;
     private NavigationManager navigationManager;
 
-    public IsenLogger logger;
+    public PaperLogger logger;
     private BungeeUtils bungeeUtils;
 
     @Override
@@ -26,7 +27,7 @@ public class HubPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        this.logger = new IsenLogger(this);
+        this.logger = new PaperLogger(this);
         this.bungeeUtils = new BungeeUtils(this);
 
         this.protectionsManager = new ProtectionsManager(this);
@@ -41,6 +42,6 @@ public class HubPlugin extends JavaPlugin {
     }
 
     public void registerCommand(String name, IsenCommand command) {
-        getCommand(name).setExecutor(command);
+        getCommand(name).setExecutor(new PaperCommandBridge(command));
     }
 }

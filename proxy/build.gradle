@@ -1,4 +1,5 @@
 dependencies {
+    compileOnly 'io.github.waterfallmc:waterfall-api:1.21-R0.3-SNAPSHOT'
 
     implementation project(':api-bungee')
 }

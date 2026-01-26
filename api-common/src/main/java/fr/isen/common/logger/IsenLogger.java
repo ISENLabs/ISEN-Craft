@@ -1,11 +1,8 @@
-package fr.isen.paper.logger;
-
-import org.bukkit.Bukkit;
-import org.bukkit.plugin.java.JavaPlugin;
+package fr.isen.common.logger;
 
 import java.util.*;
 
-public class IsenLogger {
+public abstract class IsenLogger {
 
     private final String pluginName;
     private final Boolean defaultPolicy;
@@ -13,8 +10,8 @@ public class IsenLogger {
     private final Map<String, Integer> prefixColors;
     private final List<String> colors;
 
-    public IsenLogger(JavaPlugin plugin) {
-        this.pluginName = plugin.getName();
+    public IsenLogger(String pluginName) {
+        this.pluginName = pluginName;
 
         this.defaultPolicy = true;
         this.prefixPolicies = new HashMap<>();
@@ -23,6 +20,8 @@ public class IsenLogger {
                 "§4", "§c", "§6", "§e", "§2", "§a", "§b", "§3", "§9", "§d", "§5", "§f"
         );
     }
+
+    protected abstract void print(String message);
 
     private Integer getRandomColor() {
         return (int) (Math.random() * colors.size());
@@ -39,7 +38,7 @@ public class IsenLogger {
                 prefixColors.put(key, getRandomColor());
             }
 
-            Bukkit.getConsoleSender().sendMessage(
+            print(
                     "[" + pluginName + "][" + prefix.toUpperCase() + "] " +
                             colors.get(prefixColors.get(key)) +
                             message
@@ -48,7 +47,7 @@ public class IsenLogger {
     }
 
     public void log(String message) {
-        Bukkit.getConsoleSender().sendMessage("[" + pluginName + "] " + message);
+        print("[" + pluginName + "] " + message);
     }
 
     public void disable(String prefix) {

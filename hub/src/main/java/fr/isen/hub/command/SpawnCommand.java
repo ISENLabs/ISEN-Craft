@@ -1,12 +1,12 @@
 package fr.isen.hub.command;
 
+import fr.isen.common.command.IsenCommand;
 import fr.isen.hub.managers.HubManager;
-import fr.isen.paper.command.IsenCommand;
+import fr.isen.paper.command.PaperSender;
 import fr.isen.paper.utils.MessageUtils;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class SpawnCommand extends IsenCommand {
+public class SpawnCommand extends IsenCommand<PaperSender> {
 
     public HubManager manager;
 
@@ -16,13 +16,13 @@ public class SpawnCommand extends IsenCommand {
     }
 
     @Override
-    public void run(CommandSender sender, String[] args) {
-        if(!(sender instanceof Player)) {
+    public void run(PaperSender sender, String[] args) {
+        if(!sender.isPlayer()) {
             MessageUtils.sendMessage(sender ,"&cTu ne peux pas faire ça.");
             return;
         }
 
-        Player player = ((Player) sender).getPlayer();
+        Player player = (Player) sender.getHandle();
         manager.teleportToSpawn(player);
     }
 }
