@@ -1,6 +1,7 @@
 package fr.isen.hub.managers;
 
 import fr.isen.hub.HubPlugin;
+import fr.isen.paper.command.PaperSender;
 
 public abstract class IManager {
 

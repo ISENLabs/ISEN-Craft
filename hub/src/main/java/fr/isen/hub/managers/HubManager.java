@@ -1,14 +1,12 @@
 package fr.isen.hub.managers;
 
-import fr.isen.common.command.IsenSender;
 import fr.isen.hub.HubPlugin;
-import fr.isen.hub.command.HubCommand;
-import fr.isen.hub.command.SpawnCommand;
+import fr.isen.hub.command.hub.HubCommand;
+import fr.isen.hub.command.spawn.SpawnCommand;
 import fr.isen.hub.listeners.VoidListener;
 import fr.isen.paper.command.PaperSender;
 import fr.isen.paper.utils.MessageUtils;
 import org.bukkit.Location;
-import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -32,17 +30,6 @@ public class HubManager extends IManager {
 
         plugin.registerListener(new VoidListener(this));
     }
-
-    public void sendHelp(PaperSender sender) {
-        String[] help = {"&c---------------",
-                "&4/&cihub help",
-                "&4/&cihub setspawn",
-                "&4/&cspawn",
-                "&c---------------"
-        };
-
-        MessageUtils.sendMessage(sender, List.of(help));
-    };
 
     public void setSpawn(Location location) {
         config.set("spawn", location);

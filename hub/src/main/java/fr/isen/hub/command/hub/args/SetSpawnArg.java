@@ -1,12 +1,10 @@
-package fr.isen.hub.command.args;
+package fr.isen.hub.command.hub.args;
 
 import fr.isen.common.command.IsenCommandArgument;
-import fr.isen.common.command.IsenSender;
-import fr.isen.hub.command.HubCommand;
+import fr.isen.hub.command.hub.HubCommand;
 import fr.isen.paper.command.PaperSender;
 import fr.isen.paper.utils.MessageUtils;
 import org.bukkit.Location;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class SetSpawnArg implements IsenCommandArgument<PaperSender> {
@@ -23,17 +21,27 @@ public class SetSpawnArg implements IsenCommandArgument<PaperSender> {
     }
 
     @Override
+    public boolean isPlayerOnly() {
+        return true;
+    }
+
+    @Override
+    public String getSyntax() {
+        return "/ihub setspawn";
+    }
+
+    @Override
+    public String getDescription() {
+        return "Redéfinir le spawn du hub";
+    }
+
+    @Override
     public String getPermission() {
         return "hub.admin";
     }
 
     @Override
     public void execute(PaperSender sender, String[] args) {
-        if(!sender.isPlayer()) {
-            MessageUtils.sendMessage(sender ,"&cTu ne peux pas faire ça.");
-            return;
-        }
-
         Player player = (Player) sender.getHandle();
 
         Location spawn = player.getLocation();
