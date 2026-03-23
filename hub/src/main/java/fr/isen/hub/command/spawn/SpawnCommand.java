@@ -1,4 +1,4 @@
-package fr.isen.hub.command;
+package fr.isen.hub.command.spawn;
 
 import fr.isen.common.command.IsenCommand;
 import fr.isen.hub.managers.HubManager;
@@ -16,7 +16,7 @@ public class SpawnCommand extends IsenCommand<PaperSender> {
     }
 
     @Override
-    public void run(PaperSender sender, String[] args) {
+    protected void run(PaperSender sender, String[] args) {
         if(!sender.isPlayer()) {
             MessageUtils.sendMessage(sender ,"&cTu ne peux pas faire ça.");
             return;

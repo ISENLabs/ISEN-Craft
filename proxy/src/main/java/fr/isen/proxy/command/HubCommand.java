@@ -17,7 +17,7 @@ public class HubCommand extends IsenCommand<BungeeSender> {
     }
 
     @Override
-    public void run(BungeeSender sender, String[] args) {
+    protected void run(BungeeSender sender, String[] args) {
         if(!sender.isPlayer()) {
             MessageUtils.sendMessage(sender, "&cTu ne peux pas faire ça.");
             return;
