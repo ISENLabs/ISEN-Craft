@@ -17,7 +17,7 @@ public class MessageUtils {
     }
 
     public static void sendMessage(CommandSender sender, String text) {
-        if (text == null || text.isEmpty()) return;
+        if (text == null || text.isBlank()) return;
         sender.sendMessage(color(text));
     }
 
@@ -37,8 +37,10 @@ public class MessageUtils {
         ProxyServer.getInstance().broadcast(color(text));
     }
 
+    private static final int CLEAR_CHAT_LINES = 150;
+
     public static void clearChat() {
-        for (int i = 0; i < 150; i++) {
+        for (int i = 0; i < CLEAR_CHAT_LINES; i++) {
             broadcast("");
         }
     }

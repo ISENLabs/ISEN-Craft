@@ -1,0 +1,52 @@
+package fr.isen.paper.config;
+
+import fr.isen.common.config.YamlConfigWrapper;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.File;
+import java.io.IOException;
+
+public class PaperConfigWrapper extends YamlConfigWrapper {
+
+    private final JavaPlugin plugin;
+    private FileConfiguration config;
+
+    public PaperConfigWrapper(JavaPlugin plugin, String fileName) {
+        super(plugin.getDataFolder(), fileName);
+        this.plugin = plugin;
+    }
+
+    @Override
+    public void saveDefaults() {
+        File file = new File(dataFolder, fileName);
+        if (!file.exists()) {
+            plugin.saveResource(fileName, false);
+        }
+    }
+
+    @Override
+    public void load() throws IOException {
+        saveDefaults();
+        config = YamlConfiguration.loadConfiguration(new File(dataFolder, fileName));
+    }
+
+    @Override
+    public String getString(String path, String def) {
+        if (config == null) return def;
+        return config.getString(path, def);
+    }
+
+    @Override
+    public int getInt(String path, int def) {
+        if (config == null) return def;
+        return config.getInt(path, def);
+    }
+
+    @Override
+    public boolean getBoolean(String path, boolean def) {
+        if (config == null) return def;
+        return config.getBoolean(path, def);
+    }
+}

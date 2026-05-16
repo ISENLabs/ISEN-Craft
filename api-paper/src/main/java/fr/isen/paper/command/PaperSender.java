@@ -1,7 +1,7 @@
 package fr.isen.paper.command;
 
 import fr.isen.common.command.IsenSender;
-import fr.isen.paper.utils.MessageUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -15,7 +15,7 @@ public class PaperSender implements IsenSender<CommandSender> {
 
     @Override
     public void sendMessage(String message) {
-        MessageUtils.sendMessage(handle, message);
+        handle.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
     }
 
     @Override

@@ -1,0 +1,42 @@
+package fr.isen.hub.managers;
+
+import fr.isen.common.config.IManager;
+import fr.isen.hub.HubPlugin;
+import fr.isen.hub.command.reload.IsenCraftReloadCommand;
+import fr.isen.paper.config.PaperConfigWrapper;
+
+import java.io.IOException;
+
+public class ConfigManager extends IManager<HubPlugin> {
+
+    private final PaperConfigWrapper config;
+
+    public ConfigManager(HubPlugin plugin) {
+        super(plugin, plugin.logger, "ConfigManager");
+        this.config = new PaperConfigWrapper(plugin, "config.yml");
+        try {
+            config.load();
+        } catch (IOException e) {
+            plugin.logger.log("&cImpossible de charger la configuration.", "ERROR");
+            e.printStackTrace();
+        }
+        plugin.registerCommand("isencraft", new IsenCraftReloadCommand(this));
+    }
+
+    public void reload() throws IOException {
+        config.reload();
+        logger.log("Configuration rechargée", "INFO");
+    }
+
+    public String getString(String path, String def) {
+        return config.getString(path, def);
+    }
+
+    public int getInt(String path, int def) {
+        return config.getInt(path, def);
+    }
+
+    public boolean getBoolean(String path, boolean def) {
+        return config.getBoolean(path, def);
+    }
+}
