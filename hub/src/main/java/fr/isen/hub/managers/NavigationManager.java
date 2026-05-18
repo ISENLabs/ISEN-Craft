@@ -1,5 +1,6 @@
 package fr.isen.hub.managers;
 
+import fr.isen.common.config.IManager;
 import fr.isen.hub.HubPlugin;
 import fr.isen.hub.listeners.NavigationListener;
 import fr.isen.paper.utils.BungeeUtils;
@@ -12,13 +13,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-public class NavigationManager extends IManager{
+public class NavigationManager extends IManager<HubPlugin> {
 
     public static final String KEY_ITEM = "isen_hub_item";
     private final BungeeUtils bungeeUtils;
 
     public NavigationManager(HubPlugin plugin, BungeeUtils bungeeUtils) {
-        super(plugin, "NavigationManager");
+        super(plugin, plugin.logger, "NavigationManager");
 
         this.bungeeUtils = bungeeUtils;
 
@@ -73,7 +74,6 @@ public class NavigationManager extends IManager{
                         " ",
                         "&2▶ &cMAINTENANCE"
                 )
-                .hideAllAttributes()
                 .storeString(plugin, KEY_ITEM, "creatif")
                 .enchant(Enchantment.UNBREAKING, 1)
                 .hideAllAttributes()

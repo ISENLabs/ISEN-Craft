@@ -23,6 +23,6 @@ public class HubCommand extends IsenCommand<BungeeSender> {
             return;
         }
 
-        manager.sendToHub((ProxiedPlayer) sender.getHandle(), "hub");
+        manager.sendToHub((ProxiedPlayer) sender.getHandle());
     }
 }

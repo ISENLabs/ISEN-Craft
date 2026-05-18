@@ -2,6 +2,7 @@ package fr.isen.hub.listeners;
 
 import fr.isen.hub.HubPlugin;
 import fr.isen.hub.managers.NavigationManager;
+import fr.isen.paper.utils.MessageUtils;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -28,7 +29,11 @@ public class NavigationListener implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        manager.giveCompass(event.getPlayer());
+        Player player = event.getPlayer();
+        manager.giveCompass(player);
+        String welcome = plugin.configManager.getString("messages.welcome", "&aBonjour, %player%! Bienvenue sur ISEN-Craft.")
+                .replace("%player%", player.getName());
+        MessageUtils.sendMessage(player, welcome);
     }
     @EventHandler
     public void onPlayerRespawn(PlayerRespawnEvent event) {
