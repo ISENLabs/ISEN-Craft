@@ -1,0 +1,7 @@
+messages:
+  welcome: "&aBonjour, %player%! Bienvenue sur ISEN-Craft."
+  teleport: "&2Téléportation vers le spawn..."
+
+
+settings:
+  spawn-on-join: true
