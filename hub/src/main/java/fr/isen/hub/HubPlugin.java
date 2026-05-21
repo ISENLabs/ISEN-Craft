@@ -1,9 +1,13 @@
 package fr.isen.hub;
 
 import fr.isen.common.command.IsenCommand;
+import fr.isen.common.logger.IsenLogger;
+import fr.isen.hub.managers.ConfigManager;
 import fr.isen.hub.managers.HubManager;
 import fr.isen.hub.managers.NavigationManager;
+import fr.isen.hub.managers.NetworkManager;
 import fr.isen.hub.managers.ProtectionsManager;
+import fr.isen.hub.managers.ScoreboardManager;
 import fr.isen.paper.command.PaperCommandBridge;
 import fr.isen.paper.logger.PaperLogger;
 import fr.isen.paper.utils.BungeeUtils;
@@ -13,16 +17,21 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class HubPlugin extends JavaPlugin {
 
+    public ConfigManager configManager;
     private ProtectionsManager protectionsManager;
     private HubManager hubManager;
     private NavigationManager navigationManager;
+    private NetworkManager networkManager;
+    private ScoreboardManager scoreboardManager;
 
-    public PaperLogger logger;
+    public IsenLogger logger;
     private BungeeUtils bungeeUtils;
 
     @Override
     public void onDisable() {
-        logger.log("Plugin disabled", "INFO");
+        if (logger != null) {
+            logger.log("Plugin disabled", "INFO");
+        }
     }
 
     @Override
@@ -30,9 +39,13 @@ public class HubPlugin extends JavaPlugin {
         this.logger = new PaperLogger(this);
         this.bungeeUtils = new BungeeUtils(this);
 
+        this.configManager = new ConfigManager(this);
         this.protectionsManager = new ProtectionsManager(this);
         this.hubManager = new HubManager(this);
         this.navigationManager = new NavigationManager(this, bungeeUtils);
+        this.scoreboardManager = new ScoreboardManager(this);
+        this.networkManager = new NetworkManager(this, scoreboardManager);
+        this.scoreboardManager.setNetworkManager(this.networkManager);
 
         logger.log("Plugin enabled", "INFO");
     }
@@ -42,6 +55,10 @@ public class HubPlugin extends JavaPlugin {
     }
 
     public void registerCommand(String name, IsenCommand command) {
+        if (getCommand(name) == null) {
+            logger.log("&cCommande non déclarée dans plugin.yml : " + name, "ERROR");
+            return;
+        }
         getCommand(name).setExecutor(new PaperCommandBridge(command));
     }
 }

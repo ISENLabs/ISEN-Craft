@@ -1,10 +1,10 @@
 package fr.isen.hub.managers;
 
+import fr.isen.common.config.IManager;
 import fr.isen.hub.HubPlugin;
 import fr.isen.hub.command.hub.HubCommand;
 import fr.isen.hub.command.spawn.SpawnCommand;
 import fr.isen.hub.listeners.VoidListener;
-import fr.isen.paper.command.PaperSender;
 import fr.isen.paper.utils.MessageUtils;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -15,13 +15,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-public class HubManager extends IManager {
+public class HubManager extends IManager<HubPlugin> {
 
     private File file;
     private FileConfiguration config;
 
     public HubManager(HubPlugin plugin) {
-        super(plugin, "HubManager");
+        super(plugin, plugin.logger, "HubManager");
 
         loadConfig();
 
@@ -38,9 +38,14 @@ public class HubManager extends IManager {
     }
 
     public void teleportToSpawn(Player player) {
-        Location location = (Location) config.get("spawn");
-        MessageUtils.sendMessage(player, "&2Téléportation vers le spawn...");
-        if(location != null) player.teleport(location);
+        Location location = config.getLocation("spawn");
+        if (location != null) {
+            String msg = plugin.configManager.getString("messages.teleport", "&2Téléportation vers le spawn...");
+            MessageUtils.sendMessage(player, msg);
+            player.teleport(location);
+        } else {
+            MessageUtils.sendMessage(player, "&cAucun spawn n'a été défini. Utilisez /ihub setspawn.");
+        }
     }
 
     private void loadConfig() {
