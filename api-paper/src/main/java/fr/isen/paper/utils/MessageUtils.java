@@ -37,7 +37,7 @@ public class MessageUtils {
     }
 
     public static void sendMessage(PaperSender sender, String text) {
-        if (text != null && !text.isBlank()) sender.getHandle().sendMessage(color(text));
+        if (text != null && !text.isBlank()) sender.sendMessage(text);
     }
     public static void sendMessage(PaperSender sender, List<String> text) {
         text.forEach(t -> sendMessage(sender, t));
