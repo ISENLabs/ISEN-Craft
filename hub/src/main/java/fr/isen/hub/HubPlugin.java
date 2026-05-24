@@ -4,6 +4,7 @@ import fr.isen.common.command.IsenCommand;
 import fr.isen.common.logger.IsenLogger;
 import fr.isen.hub.managers.ConfigManager;
 import fr.isen.hub.managers.HubManager;
+import fr.isen.hub.managers.LogManager;
 import fr.isen.hub.managers.NavigationManager;
 import fr.isen.hub.managers.NetworkManager;
 import fr.isen.hub.managers.ProtectionsManager;
@@ -20,6 +21,7 @@ public class HubPlugin extends JavaPlugin {
 
     public ConfigManager configManager;
     public TitleManager titleManager;
+    public LogManager logManager;
     private ProtectionsManager protectionsManager;
     private HubManager hubManager;
     private NavigationManager navigationManager;
@@ -43,6 +45,7 @@ public class HubPlugin extends JavaPlugin {
 
         this.configManager = new ConfigManager(this);
         this.titleManager = new TitleManager(this);
+        this.logManager = new LogManager(this);
         this.protectionsManager = new ProtectionsManager(this);
         this.hubManager = new HubManager(this);
         this.navigationManager = new NavigationManager(this, bungeeUtils);
