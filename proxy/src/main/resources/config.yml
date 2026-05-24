@@ -1,0 +1,7 @@
+servers:
+  hub: "hub"
+
+messages:
+  hub-redirect: "&2Téléportation au hub..."
+  already-hub: "&cTu es déjà au hub."
+  not-found: "&cLe serveur est introuvable."

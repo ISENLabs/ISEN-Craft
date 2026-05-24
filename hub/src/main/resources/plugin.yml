@@ -17,6 +17,9 @@ commands:
   spawn:
     description: "Spawn command"
     usage: "/spawn"
+  isencraft:
+    description: "ISEN-Craft admin command"
+    usage: "/isencraft [args]"
 
 permissions:
   hub.admin:
