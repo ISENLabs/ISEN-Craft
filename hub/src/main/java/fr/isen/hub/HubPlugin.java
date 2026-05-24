@@ -8,6 +8,7 @@ import fr.isen.hub.managers.NavigationManager;
 import fr.isen.hub.managers.NetworkManager;
 import fr.isen.hub.managers.ProtectionsManager;
 import fr.isen.hub.managers.ScoreboardManager;
+import fr.isen.hub.managers.TitleManager;
 import fr.isen.paper.command.PaperCommandBridge;
 import fr.isen.paper.logger.PaperLogger;
 import fr.isen.paper.utils.BungeeUtils;
@@ -18,6 +19,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class HubPlugin extends JavaPlugin {
 
     public ConfigManager configManager;
+    public TitleManager titleManager;
     private ProtectionsManager protectionsManager;
     private HubManager hubManager;
     private NavigationManager navigationManager;
@@ -40,6 +42,7 @@ public class HubPlugin extends JavaPlugin {
         this.bungeeUtils = new BungeeUtils(this);
 
         this.configManager = new ConfigManager(this);
+        this.titleManager = new TitleManager(this);
         this.protectionsManager = new ProtectionsManager(this);
         this.hubManager = new HubManager(this);
         this.navigationManager = new NavigationManager(this, bungeeUtils);

@@ -5,3 +5,10 @@ messages:
 
 settings:
   spawn-on-join: true
+
+welcome-title:
+  title: "Bienvenue sur ISEN-Craft"
+  subtitle: "&eRavi de vous revoir, &f%player% !"
+  fade-in: 10
+  stay: 40
+  fade-out: 10

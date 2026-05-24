@@ -34,6 +34,7 @@ public class NavigationListener implements Listener {
         String welcome = plugin.configManager.getString("messages.welcome", "&aBonjour, %player%! Bienvenue sur ISEN-Craft.")
                 .replace("%player%", player.getName());
         MessageUtils.sendMessage(player, welcome);
+        plugin.titleManager.showWelcomeTitle(player);
     }
     @EventHandler
     public void onPlayerRespawn(PlayerRespawnEvent event) {
