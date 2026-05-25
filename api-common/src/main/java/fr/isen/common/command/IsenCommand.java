@@ -84,8 +84,8 @@ public abstract class IsenCommand<S extends IsenSender<?>> {
 
     protected void sendHelpMessage(S sender) {
         sender.sendMessage(" ");
-        sender.sendMessage("§8§m----------------------------------------");
-        sender.sendMessage("             §c§lISEN-Craft");
+        sender.sendMessage("&8&m----------------------------------------");
+        sender.sendMessage("             &c&lISEN-Craft");
         sender.sendMessage(" ");
 
         boolean hasAnyCommand = false;
@@ -94,19 +94,19 @@ public abstract class IsenCommand<S extends IsenSender<?>> {
             if (subCommand.getPermission() == null || subCommand.getPermission().isEmpty() || sender.hasPermission(subCommand.getPermission())) {
 
                 if (subCommand.isPlayerOnly() && !sender.isPlayer()) {
-                    sender.sendMessage(" §8» §c" + subCommand.getSyntax() + " §8- §7(Joueur Uniquement)");
+                    sender.sendMessage(" &8» &c" + subCommand.getSyntax() + " &8- &7(Joueur Uniquement)");
                 } else {
-                    sender.sendMessage(" §8» §e" + subCommand.getSyntax() + " §8- §7" + subCommand.getDescription());
+                    sender.sendMessage(" &8» &e" + subCommand.getSyntax() + " &8- &7" + subCommand.getDescription());
                 }
                 hasAnyCommand = true;
             }
         }
 
         if (!hasAnyCommand) {
-            sender.sendMessage(" §cVous n'avez accès à aucune commande.");
+            sender.sendMessage(" &cVous n'avez accès à aucune commande.");
         }
 
-        sender.sendMessage("§8§m----------------------------------------");
+        sender.sendMessage("&8&m----------------------------------------");
         sender.sendMessage(" ");
     }
 }

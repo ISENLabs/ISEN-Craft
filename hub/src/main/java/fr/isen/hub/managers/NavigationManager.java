@@ -6,6 +6,7 @@ import fr.isen.hub.listeners.NavigationListener;
 import fr.isen.paper.utils.BungeeUtils;
 import fr.isen.paper.utils.ItemBuilder;
 import fr.isen.paper.utils.MessageUtils;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -39,7 +40,7 @@ public class NavigationManager extends IManager<HubPlugin> {
     }
 
     public void openMenu(Player player) {
-        Inventory inv = Bukkit.createInventory(null, 27, "§7ISEN - Menu");
+        Inventory inv = Bukkit.createInventory(null, 27, LegacyComponentSerializer.legacySection().deserialize("§7ISEN - Menu"));
 
         String survieCount = MessageUtils.p(player, "%bungee_survie%");
         ItemStack survivalItem = new ItemBuilder(Material.DIAMOND_HOE)
