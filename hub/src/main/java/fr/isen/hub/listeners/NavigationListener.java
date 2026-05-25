@@ -3,6 +3,7 @@ package fr.isen.hub.listeners;
 import fr.isen.hub.HubPlugin;
 import fr.isen.hub.managers.NavigationManager;
 import fr.isen.paper.utils.MessageUtils;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -80,7 +81,7 @@ public class NavigationListener implements Listener {
             String serverName = pdc.get(key, PersistentDataType.STRING);
             manager.connect(player, serverName);
         } else {
-            if (event.getView().title().toString().contains("ISEN - Menu")) {
+            if (LegacyComponentSerializer.legacySection().serialize(event.getView().title()).contains("ISEN - Menu")) {
                 event.setCancelled(true);
             }
         }
