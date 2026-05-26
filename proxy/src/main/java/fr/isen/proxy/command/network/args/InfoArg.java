@@ -30,7 +30,7 @@ public class InfoArg implements IsenCommandArgument<BungeeSender> {
 
     @Override
     public String getDescription() {
-        return "Affiche les stats réseau en direct";
+        return "Affiche les stats du network en direct";
     }
 
     @Override
@@ -51,7 +51,7 @@ public class InfoArg implements IsenCommandArgument<BungeeSender> {
 
         MessageUtils.sendMessage(sender, " ");
         MessageUtils.sendMessage(sender, "&8&m----------------------------------------");
-        MessageUtils.sendMessage(sender, "             &c&lISEN-Craft Réseau");
+        MessageUtils.sendMessage(sender, "             &c&lISEN-Craft Network");
         MessageUtils.sendMessage(sender, " ");
         MessageUtils.sendMessage(sender, " &8» &7Joueurs en ligne: &e" + totalPlayers);
         MessageUtils.sendMessage(sender, " &8» &7Nombre de serveurs: &e" + servers.size());

@@ -64,25 +64,16 @@ public class ScoreboardManager extends IManager<HubPlugin> implements Listener {
         Objective obj = board.getObjective(OBJECTIVE_NAME);
         if (obj == null) return;
 
-        String group;
-        try {
-            net.luckperms.api.LuckPerms lp = net.luckperms.api.LuckPermsProvider.get();
-            group = lp.getPlayerAdapter(Player.class).getUser(player)
-                    .getCachedData().getMetaData().getPrimaryGroup();
-        } catch (Exception e) {
-            group = "inconnu";
-            plugin.logger.log("LuckPerms indisponible — rang affiché comme 'inconnu'", "WARN");
-        }
 
         obj.getScore(ChatColor.translateAlternateColorCodes('&', "&eJoueur: &f" + player.getName())).setScore(8);
-        obj.getScore(ChatColor.translateAlternateColorCodes('&', "&eRang: &f" + group)).setScore(7);
+        obj.getScore(ChatColor.translateAlternateColorCodes('&', "&eRang: &fISEN")).setScore(7);
         obj.getScore(" ").setScore(6);
         obj.getScore(ChatColor.translateAlternateColorCodes('&', "&8---------------")).setScore(5);
         obj.getScore("  ").setScore(4);
 
         int total = stats.values().stream().mapToInt(Integer::intValue).sum();
         String totalStr = stats.isEmpty() ? "--" : String.valueOf(total);
-        obj.getScore(ChatColor.translateAlternateColorCodes('&', "&eRéseau: &f" + totalStr)).setScore(3);
+        obj.getScore(ChatColor.translateAlternateColorCodes('&', "&eNetwork: &f" + totalStr)).setScore(3);
 
         int score = 2;
         for (Map.Entry<String, Integer> entry : stats.entrySet()) {

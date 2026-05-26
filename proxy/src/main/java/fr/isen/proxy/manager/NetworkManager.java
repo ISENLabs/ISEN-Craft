@@ -49,7 +49,7 @@ public class NetworkManager extends IManager<ProxyPlugin> implements Listener {
 
             payload = b.toByteArray();
         } catch (IOException e) {
-            plugin.logger.log("Erreur envoi stats réseau", "ERROR");
+            plugin.logger.log("Erreur envoi stats du network", "ERROR");
             e.printStackTrace();
             return;
         }
