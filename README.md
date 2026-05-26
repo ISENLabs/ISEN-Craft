@@ -1,6 +1,6 @@
 # ISEN-Craft
 
-Plugin Minecraft multi-serveur (hub + proxy) pour réseau Paper/Waterfall.
+Plugin Minecraft multi-serveur (hub + proxy) pour network Paper/Waterfall.
 
 ## Architecture
 
