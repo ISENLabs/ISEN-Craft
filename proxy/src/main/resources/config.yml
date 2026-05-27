@@ -10,3 +10,8 @@ messages:
   hub-redirect: "&2Téléportation au hub..."
   already-hub: "&cTu es déjà au hub."
   not-found: "&cLe serveur est introuvable."
+
+join-leave:
+  enabled: true
+  join: "&a[+] &f{player} &aa rejoint le réseau."
+  leave: "&c[-] &f{player} &ca quitté le réseau."

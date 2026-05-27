@@ -6,3 +6,13 @@ author: ISENLabs
 commands:
   network:
     description: "Network command"
+  banproxy:
+    description: "Bannir un joueur du réseau"
+  unbanproxy:
+    description: "Débannir un joueur du réseau"
+  mute:
+    description: "Muter un joueur"
+  unmute:
+    description: "Démuter un joueur"
+  find:
+    description: "Trouver un joueur sur le réseau"
