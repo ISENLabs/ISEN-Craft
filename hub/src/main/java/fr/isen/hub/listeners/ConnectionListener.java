@@ -2,6 +2,8 @@ package fr.isen.hub.listeners;
 
 import fr.isen.hub.HubPlugin;
 import fr.isen.hub.managers.LogManager;
+import fr.isen.hub.model.PlayerProfile;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -19,7 +21,13 @@ public class ConnectionListener implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        logManager.logJoin(event.getPlayer());
+        Player player = event.getPlayer();
+        logManager.logJoin(player);
+        if (plugin.playerProfileManager != null) {
+            PlayerProfile profile = plugin.playerProfileManager.loadOrCreate(
+                    player.getUniqueId(), player.getName());
+            plugin.playerProfileManager.recordJoinAndSave(profile);
+        }
     }
 
     @EventHandler

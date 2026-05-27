@@ -2,9 +2,9 @@ messages:
   welcome: "&aBonjour, %player%! Bienvenue sur ISEN-Craft."
   teleport: "&2Téléportation vers le spawn..."
 
-
 settings:
   spawn-on-join: true
+  navigation-cooldown-seconds: 3
 
 welcome-title:
   title: "Bienvenue sur ISEN-Craft"

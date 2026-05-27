@@ -6,6 +6,8 @@ import fr.isen.hub.managers.ConfigManager;
 import fr.isen.hub.managers.HubManager;
 import fr.isen.hub.managers.LogManager;
 import fr.isen.hub.managers.NavigationManager;
+import fr.isen.hub.managers.PlayerProfileManager;
+import fr.isen.hub.command.profil.ProfilCommand;
 import fr.isen.hub.managers.NetworkManager;
 import fr.isen.hub.listeners.OpSyncListener;
 import fr.isen.hub.managers.ProtectionsManager;
@@ -28,6 +30,7 @@ public class HubPlugin extends JavaPlugin {
     private NavigationManager navigationManager;
     private NetworkManager networkManager;
     public ScoreboardManager scoreboardManager;
+    public PlayerProfileManager playerProfileManager;
     private OpSyncListener opSyncListener;
 
     public IsenLogger logger;
@@ -52,6 +55,8 @@ public class HubPlugin extends JavaPlugin {
         this.configManager = new ConfigManager(this);
         this.titleManager = new TitleManager(this);
         this.logManager = new LogManager(this);
+        this.playerProfileManager = new PlayerProfileManager(this);
+        registerCommand("profil", new ProfilCommand(this));
         this.protectionsManager = new ProtectionsManager(this);
         this.hubManager = new HubManager(this);
         this.navigationManager = new NavigationManager(this, bungeeUtils);

@@ -6,6 +6,7 @@ import fr.isen.hub.listeners.NavigationListener;
 import fr.isen.paper.utils.BungeeUtils;
 import fr.isen.paper.utils.ItemBuilder;
 import fr.isen.paper.utils.MessageUtils;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -13,6 +14,9 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class NavigationManager extends IManager<HubPlugin> {
 
@@ -21,6 +25,7 @@ public class NavigationManager extends IManager<HubPlugin> {
     private static final int SURVIE_MENU_SLOT = 11;
     private static final int CREATIF_MENU_SLOT = 15;
     private final BungeeUtils bungeeUtils;
+    private final Map<UUID, Long> cooldowns = new HashMap<>();
 
     public NavigationManager(HubPlugin plugin, BungeeUtils bungeeUtils) {
         super(plugin, plugin.logger, "NavigationManager");
@@ -97,8 +102,32 @@ public class NavigationManager extends IManager<HubPlugin> {
     }
 
     public void connect(Player player, String serverName) {
+        if ("compass".equals(serverName)) return;
+
+        int cooldownSeconds = plugin.configManager.getInt("settings.navigation-cooldown-seconds", 3);
+        long cooldownMs = cooldownSeconds * 1000L;
+        long now = System.currentTimeMillis();
+
+        Long lastConnect = cooldowns.get(player.getUniqueId());
+        if (lastConnect != null && now - lastConnect < cooldownMs) {
+            long remaining = (cooldownMs - (now - lastConnect) + 999) / 1000;
+            Component msg = LegacyComponentSerializer.legacyAmpersand()
+                    .deserialize("&cVeuillez attendre &e" + remaining + "s &cavant de changer de serveur.");
+            player.sendActionBar(msg);
+            return;
+        }
+
+        cooldowns.put(player.getUniqueId(), now);
         player.closeInventory();
-        MessageUtils.sendMessage(player, "&2Redirection vers " + serverName + "...");
+
+        Component transferMsg = LegacyComponentSerializer.legacyAmpersand()
+                .deserialize("&aTransfert vers &f" + serverName + "&a en cours...");
+        player.sendActionBar(transferMsg);
+
         bungeeUtils.connect(player, serverName);
+    }
+
+    public void removeCooldown(UUID uuid) {
+        cooldowns.remove(uuid);
     }
 }

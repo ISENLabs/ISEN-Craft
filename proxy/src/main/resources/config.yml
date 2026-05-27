@@ -1,6 +1,11 @@
 servers:
   hub: "hub"
 
+notifications:
+  enabled: true
+  server-online: "&a[Network] &fLe serveur &a{server} &fest maintenant actif !"
+  server-empty: "&7[Network] &fLe serveur &7{server} &fest maintenant vide."
+
 messages:
   hub-redirect: "&2Téléportation au hub..."
   already-hub: "&cTu es déjà au hub."
