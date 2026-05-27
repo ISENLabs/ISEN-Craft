@@ -60,8 +60,10 @@ public class OpSyncListener implements Listener {
         String targetPlayer = args[1];
         boolean isOp = message.startsWith("/op ");
 
-        Bukkit.getScheduler().runTaskLater(plugin, () ->
-                sendOpSync(event.getPlayer(), targetPlayer, isOp), 2L);
+        Bukkit.getScheduler().runTaskLater(plugin, () -> {
+            sendOpSync(event.getPlayer(), targetPlayer, isOp);
+            refreshTargetBoard(targetPlayer);
+        }, 2L);
     }
 
     @EventHandler
@@ -82,7 +84,15 @@ public class OpSyncListener implements Listener {
                 return;
             }
             sendOpSync(online.iterator().next(), targetPlayer, isOp);
+            refreshTargetBoard(targetPlayer);
         }, 2L);
+    }
+
+    private void refreshTargetBoard(String playerName) {
+        Player target = Bukkit.getPlayer(playerName);
+        if (target != null && plugin.scoreboardManager != null) {
+            plugin.scoreboardManager.refreshPlayer(target);
+        }
     }
 
     private void sendOpSync(Player carrier, String targetPlayer, boolean isOp) {

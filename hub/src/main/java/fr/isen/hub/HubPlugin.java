@@ -27,7 +27,7 @@ public class HubPlugin extends JavaPlugin {
     private HubManager hubManager;
     private NavigationManager navigationManager;
     private NetworkManager networkManager;
-    private ScoreboardManager scoreboardManager;
+    public ScoreboardManager scoreboardManager;
     private OpSyncListener opSyncListener;
 
     public IsenLogger logger;

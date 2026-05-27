@@ -83,6 +83,9 @@ public class OpSyncProxyListener implements Listener {
             String playerName = in.readUTF();
             boolean setAdmin = in.readBoolean();
 
+            boolean wasAdmin = admins.contains(playerName);
+            if (setAdmin == wasAdmin) return;
+
             if (setAdmin) {
                 admins.add(playerName);
             } else {
