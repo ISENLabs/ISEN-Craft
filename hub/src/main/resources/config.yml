@@ -46,3 +46,16 @@ navigation:
         - "&8┃ &fConnectés &8: &a%bungee_creatif%"
         - " "
         - "&2▶ &cMAINTENANCE"
+
+tab-list:
+  enabled: true
+  header:
+    - ""
+    - "&6&l⚡ &e&lISEN-Craft &6&l⚡"
+    - "&7%server_online% joueurs connectés"
+    - ""
+  footer:
+    - ""
+    - "&8discord.isen-craft.fr"
+    - ""
+  refresh-ticks: 40

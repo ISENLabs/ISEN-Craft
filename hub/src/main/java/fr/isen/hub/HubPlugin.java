@@ -12,6 +12,7 @@ import fr.isen.hub.managers.NetworkManager;
 import fr.isen.hub.listeners.OpSyncListener;
 import fr.isen.hub.managers.ProtectionsManager;
 import fr.isen.hub.managers.ScoreboardManager;
+import fr.isen.hub.managers.TabListManager;
 import fr.isen.hub.managers.TitleManager;
 import fr.isen.paper.command.PaperCommandBridge;
 import fr.isen.paper.logger.PaperLogger;
@@ -31,6 +32,7 @@ public class HubPlugin extends JavaPlugin {
     private NetworkManager networkManager;
     public ScoreboardManager scoreboardManager;
     public PlayerProfileManager playerProfileManager;
+    public TabListManager tabListManager;
     private OpSyncListener opSyncListener;
 
     public IsenLogger logger;
@@ -38,6 +40,7 @@ public class HubPlugin extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        if (tabListManager != null) tabListManager.shutdown();
         if (opSyncListener != null) opSyncListener.shutdown();
         getServer().getMessenger().unregisterIncomingPluginChannel(this, "fr.isen:network");
         getServer().getMessenger().unregisterOutgoingPluginChannel(this, "fr.isen:network");
@@ -63,6 +66,7 @@ public class HubPlugin extends JavaPlugin {
         this.scoreboardManager = new ScoreboardManager(this);
         this.networkManager = new NetworkManager(this, scoreboardManager);
         this.scoreboardManager.setNetworkManager(this.networkManager);
+        this.tabListManager = new TabListManager(this);
 
         this.opSyncListener = new OpSyncListener(this);
         registerListener(this.opSyncListener);
