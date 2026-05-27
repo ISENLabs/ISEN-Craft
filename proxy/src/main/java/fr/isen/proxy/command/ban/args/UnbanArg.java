@@ -19,7 +19,7 @@ public class UnbanArg implements IsenCommandArgument<BungeeSender> {
     public String getName() { return "unban"; }
 
     @Override
-    public String getSyntax() { return "/unbanproxy <joueur>"; }
+    public String getSyntax() { return "/unban <joueur>"; }
 
     @Override
     public String getDescription() { return "Débannir un joueur du réseau"; }
@@ -33,7 +33,7 @@ public class UnbanArg implements IsenCommandArgument<BungeeSender> {
     @Override
     public void execute(BungeeSender sender, String[] args) {
         if (args.length < 1) {
-            MessageUtils.sendMessage(sender, "&cUsage: /unbanproxy <joueur>");
+            MessageUtils.sendMessage(sender, "&cUsage: /unban <joueur>");
             return;
         }
         String name = args[0];

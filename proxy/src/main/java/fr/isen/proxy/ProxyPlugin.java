@@ -9,6 +9,7 @@ import fr.isen.proxy.command.ban.BanCommand;
 import fr.isen.proxy.command.ban.args.BanArg;
 import fr.isen.proxy.command.ban.args.UnbanArg;
 import fr.isen.proxy.command.find.FindCommand;
+import fr.isen.proxy.command.kick.KickCommand;
 import fr.isen.proxy.command.mute.MuteCommand;
 import fr.isen.proxy.command.mute.args.MuteArg;
 import fr.isen.proxy.command.mute.args.UnmuteArg;
@@ -42,16 +43,18 @@ public class ProxyPlugin extends Plugin {
         this.banManager = new BanManager(this);
         this.muteManager = new MuteManager(this);
 
-        registerCommand("banproxy", new BanCommand(new BanArg(banManager)));
-        logger.log("Registered command: banproxy", "INFO");
-        registerCommand("unbanproxy", new BanCommand(new UnbanArg(banManager)));
-        logger.log("Registered command: unbanproxy", "INFO");
+        registerCommand("ban", new BanCommand(new BanArg(banManager)));
+        logger.log("Registered command: ban", "INFO");
+        registerCommand("unban", new BanCommand(new UnbanArg(banManager)));
+        logger.log("Registered command: unban", "INFO");
         registerCommand("mute", new MuteCommand(new MuteArg(muteManager)));
         logger.log("Registered command: mute", "INFO");
         registerCommand("unmute", new MuteCommand(new UnmuteArg(muteManager)));
         logger.log("Registered command: unmute", "INFO");
         registerCommand("find", new FindCommand());
         logger.log("Registered command: find", "INFO");
+        registerCommand("kick", new KickCommand());
+        logger.log("Registered command: kick", "INFO");
 
         getProxy().registerChannel("fr.isen:opsync");
         getProxy().getPluginManager().registerListener(this, new OpSyncProxyListener(this));

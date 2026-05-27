@@ -22,7 +22,7 @@ public class BanArg implements IsenCommandArgument<BungeeSender> {
     public String getName() { return "ban"; }
 
     @Override
-    public String getSyntax() { return "/banproxy <joueur> [raison]"; }
+    public String getSyntax() { return "/ban <joueur> [raison]"; }
 
     @Override
     public String getDescription() { return "Bannir un joueur du réseau"; }
@@ -36,7 +36,7 @@ public class BanArg implements IsenCommandArgument<BungeeSender> {
     @Override
     public void execute(BungeeSender sender, String[] args) {
         if (args.length < 1) {
-            MessageUtils.sendMessage(sender, "&cUsage: /banproxy <joueur> [raison]");
+            MessageUtils.sendMessage(sender, "&cUsage: /ban <joueur> [raison]");
             return;
         }
         String name = args[0];
