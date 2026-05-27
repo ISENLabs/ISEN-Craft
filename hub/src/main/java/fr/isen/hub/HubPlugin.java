@@ -28,14 +28,17 @@ public class HubPlugin extends JavaPlugin {
     private NavigationManager navigationManager;
     private NetworkManager networkManager;
     private ScoreboardManager scoreboardManager;
+    private OpSyncListener opSyncListener;
 
     public IsenLogger logger;
     private BungeeUtils bungeeUtils;
 
     @Override
     public void onDisable() {
+        if (opSyncListener != null) opSyncListener.shutdown();
         getServer().getMessenger().unregisterIncomingPluginChannel(this, "fr.isen:network");
         getServer().getMessenger().unregisterOutgoingPluginChannel(this, "fr.isen:network");
+        getServer().getMessenger().unregisterOutgoingPluginChannel(this, "fr.isen:opsync");
         if (logger != null) {
             logger.log("Plugin disabled", "INFO");
         }
@@ -56,7 +59,8 @@ public class HubPlugin extends JavaPlugin {
         this.networkManager = new NetworkManager(this, scoreboardManager);
         this.scoreboardManager.setNetworkManager(this.networkManager);
 
-        registerListener(new OpSyncListener(this));
+        this.opSyncListener = new OpSyncListener(this);
+        registerListener(this.opSyncListener);
 
         logger.log("Plugin enabled", "INFO");
     }

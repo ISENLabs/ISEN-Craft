@@ -27,7 +27,8 @@ public class ProxyPlugin extends Plugin {
         this.hubManager = new HubManager(this, configManager);
         this.networkManager = new NetworkManager(this, configManager);
 
-        getProxy().getPluginManager().registerListener(this, new OpSyncProxyListener());
+        getProxy().registerChannel("fr.isen:opsync");
+        getProxy().getPluginManager().registerListener(this, new OpSyncProxyListener(this));
 
         logger.log("Plugin enabled", "INFO");
     }
@@ -35,6 +36,7 @@ public class ProxyPlugin extends Plugin {
     @Override
     public void onDisable() {
         getProxy().unregisterChannel("fr.isen:network");
+        getProxy().unregisterChannel("fr.isen:opsync");
         if (logger != null) {
             logger.log("Plugin disabled", "INFO");
         }
