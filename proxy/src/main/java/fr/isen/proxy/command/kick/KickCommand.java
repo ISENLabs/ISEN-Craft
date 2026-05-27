@@ -35,7 +35,7 @@ public class KickCommand extends IsenCommand<BungeeSender> {
     }
 
     @Override
-    public List<String> onTabComplete(BungeeSender sender, String[] args) {
+    public List<String> tabComplete(BungeeSender sender, String[] args) {
         if (args.length == 1) {
             return ProxyServer.getInstance().getPlayers().stream()
                     .map(ProxiedPlayer::getName)
