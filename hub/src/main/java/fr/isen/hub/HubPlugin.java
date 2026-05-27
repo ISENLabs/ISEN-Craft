@@ -7,6 +7,7 @@ import fr.isen.hub.managers.HubManager;
 import fr.isen.hub.managers.LogManager;
 import fr.isen.hub.managers.NavigationManager;
 import fr.isen.hub.managers.NetworkManager;
+import fr.isen.hub.listeners.OpSyncListener;
 import fr.isen.hub.managers.ProtectionsManager;
 import fr.isen.hub.managers.ScoreboardManager;
 import fr.isen.hub.managers.TitleManager;
@@ -54,6 +55,8 @@ public class HubPlugin extends JavaPlugin {
         this.scoreboardManager = new ScoreboardManager(this);
         this.networkManager = new NetworkManager(this, scoreboardManager);
         this.scoreboardManager.setNetworkManager(this.networkManager);
+
+        registerListener(new OpSyncListener(this));
 
         logger.log("Plugin enabled", "INFO");
     }

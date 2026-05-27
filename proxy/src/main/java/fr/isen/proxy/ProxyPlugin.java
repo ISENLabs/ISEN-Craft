@@ -8,6 +8,7 @@ import fr.isen.common.logger.IsenLogger;
 import fr.isen.proxy.manager.ConfigManager;
 import fr.isen.proxy.manager.HubManager;
 import fr.isen.proxy.manager.NetworkManager;
+import fr.isen.proxy.listeners.OpSyncProxyListener;
 import net.md_5.bungee.api.plugin.Plugin;
 
 public class ProxyPlugin extends Plugin {
@@ -25,6 +26,8 @@ public class ProxyPlugin extends Plugin {
         this.configManager = new ConfigManager(this);
         this.hubManager = new HubManager(this, configManager);
         this.networkManager = new NetworkManager(this, configManager);
+
+        getProxy().getPluginManager().registerListener(this, new OpSyncProxyListener());
 
         logger.log("Plugin enabled", "INFO");
     }
