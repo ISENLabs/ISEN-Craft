@@ -52,10 +52,10 @@ tab-list:
   header:
     - ""
     - "&6&l⚡ &e&lISEN-Craft &6&l⚡"
-    - "&7%server_online% joueurs connectés"
+    - "&7{online} joueurs connectés"
     - ""
   footer:
     - ""
-    - "&8discord.isen-craft.fr"
+    - "&8mc.isenlabs.fr"
     - ""
   refresh-ticks: 40

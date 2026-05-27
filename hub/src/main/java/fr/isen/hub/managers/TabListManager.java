@@ -38,8 +38,13 @@ public class TabListManager extends IManager<HubPlugin> implements Listener {
         String headerRaw = String.join("\n", headerLines);
         String footerRaw = String.join("\n", footerLines);
 
-        headerRaw = MessageUtils.p(player, headerRaw).replace("%player%", player.getName());
-        footerRaw = MessageUtils.p(player, footerRaw).replace("%player%", player.getName());
+        String onlineCount = String.valueOf(Bukkit.getOnlinePlayers().size());
+        headerRaw = MessageUtils.p(player, headerRaw)
+                .replace("%player%", player.getName())
+                .replace("{online}", onlineCount);
+        footerRaw = MessageUtils.p(player, footerRaw)
+                .replace("%player%", player.getName())
+                .replace("{online}", onlineCount);
 
         Component header = LegacyComponentSerializer.legacyAmpersand().deserialize(headerRaw);
         Component footer = LegacyComponentSerializer.legacyAmpersand().deserialize(footerRaw);
