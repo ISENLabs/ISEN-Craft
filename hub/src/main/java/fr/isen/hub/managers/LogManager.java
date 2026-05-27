@@ -33,8 +33,7 @@ public class LogManager extends IManager<HubPlugin> {
             try {
                 logFile.createNewFile();
             } catch (java.io.IOException e) {
-                plugin.logger.log("Could not create connections.log file!", "ERROR");
-                e.printStackTrace();
+                plugin.logger.logException("Could not create connections.log", e, "ERROR");
             }
         }
 
@@ -47,8 +46,7 @@ public class LogManager extends IManager<HubPlugin> {
              PrintWriter out = new PrintWriter(bw)) {
             out.println(line);
         } catch (java.io.IOException e) {
-            plugin.logger.log("Could not write to connections.log!", "ERROR");
-            e.printStackTrace();
+            plugin.logger.logException("Could not write to connections.log", e, "ERROR");
         }
     }
 

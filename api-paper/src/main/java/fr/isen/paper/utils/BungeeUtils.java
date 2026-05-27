@@ -25,7 +25,7 @@ public class BungeeUtils {
             out.writeUTF("Connect");
             out.writeUTF(targetServer);
         } catch (IOException e) {
-            e.printStackTrace();
+            java.util.logging.Logger.getLogger(getClass().getName()).severe("Failed to write BungeeCord connect message: " + e.getMessage());
         }
 
         player.sendPluginMessage(plugin, "BungeeCord", byteArray.toByteArray());

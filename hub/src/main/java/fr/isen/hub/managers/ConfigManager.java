@@ -17,8 +17,7 @@ public class ConfigManager extends IManager<HubPlugin> {
         try {
             config.load();
         } catch (IOException e) {
-            plugin.logger.log("&cImpossible de charger la configuration.", "ERROR");
-            e.printStackTrace();
+            plugin.logger.logException("Impossible de charger la configuration", e, "ERROR");
         }
         plugin.registerCommand("isencraft", new IsenCraftReloadCommand(this));
     }

@@ -23,7 +23,7 @@ public class IsenCraftReloadCommand extends IsenCommand<BungeeSender> {
             MessageUtils.sendMessage(sender, "&aConfiguration rechargée.");
         } catch (IOException e) {
             MessageUtils.sendMessage(sender, "&cErreur lors du rechargement de la configuration.");
-            e.printStackTrace();
+            java.util.logging.Logger.getLogger(getClass().getName()).severe("Failed to reload configuration: " + e.getMessage());
         }
     }
 }

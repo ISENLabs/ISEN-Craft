@@ -17,6 +17,9 @@ import org.bukkit.inventory.ItemStack;
 public class NavigationManager extends IManager<HubPlugin> {
 
     public static final String KEY_ITEM = "isen_hub_item";
+    private static final int COMPASS_SLOT = 4;
+    private static final int SURVIE_MENU_SLOT = 11;
+    private static final int CREATIF_MENU_SLOT = 15;
     private final BungeeUtils bungeeUtils;
 
     public NavigationManager(HubPlugin plugin, BungeeUtils bungeeUtils) {
@@ -36,7 +39,7 @@ public class NavigationManager extends IManager<HubPlugin> {
             .storeString(plugin, KEY_ITEM, "compass")
             .build();
 
-        player.getInventory().setItem(4, item);
+        player.getInventory().setItem(COMPASS_SLOT, item);
     }
 
     public void openMenu(Player player) {
@@ -80,8 +83,8 @@ public class NavigationManager extends IManager<HubPlugin> {
                 .hideAllAttributes()
                 .build();
 
-        inv.setItem(11, survivalItem);
-        inv.setItem(15, pvpItem);
+        inv.setItem(SURVIE_MENU_SLOT, survivalItem);
+        inv.setItem(CREATIF_MENU_SLOT, pvpItem);
 
         ItemStack filler = new ItemBuilder(Material.GRAY_STAINED_GLASS_PANE).name(" ").build();
         for (int i = 0; i < inv.getSize(); i++) {

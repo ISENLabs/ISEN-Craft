@@ -24,6 +24,10 @@ import java.util.UUID;
 public class ScoreboardManager extends IManager<HubPlugin> implements Listener {
 
     private static final String OBJECTIVE_NAME = "isen-network";
+    private static final int PING_WARN_MS = 80;
+    private static final int PING_BAD_MS = 150;
+    private static final int MAX_SERVERS_DISPLAY = 3;
+    private static final long NETWORK_REQUEST_DELAY_TICKS = 20L;
 
     private final Map<UUID, Scoreboard> playerBoards = new HashMap<>();
     private Map<String, Integer> lastStats = new HashMap<>();
@@ -44,7 +48,7 @@ public class ScoreboardManager extends IManager<HubPlugin> implements Listener {
         if (networkManager != null) {
             Bukkit.getScheduler().runTaskLater(plugin, () -> {
                 if (event.getPlayer().isOnline()) networkManager.sendRequest(event.getPlayer());
-            }, 20L);
+            }, NETWORK_REQUEST_DELAY_TICKS);
         }
     }
 
@@ -84,10 +88,10 @@ public class ScoreboardManager extends IManager<HubPlugin> implements Listener {
         String totalStr = stats.isEmpty() ? "--" : String.valueOf(total);
         obj.getScore(ChatColor.translateAlternateColorCodes('&', "&eNetwork: &f" + totalStr)).setScore(3);
 
-        int score = 2;
+        int score = MAX_SERVERS_DISPLAY - 1;
         for (Map.Entry<String, Integer> entry : stats.entrySet()) {
             if (score < 0) {
-                plugin.logger.log("Scoreboard limité à 3 serveurs — " + stats.size() + " serveurs reçus, les suivants ne sont pas affichés", "WARN");
+                plugin.logger.log("Scoreboard limité à " + MAX_SERVERS_DISPLAY + " serveurs — " + stats.size() + " serveurs reçus, les suivants ne sont pas affichés", "WARN");
                 break;
             }
             obj.getScore(ChatColor.translateAlternateColorCodes('&', "&f" + entry.getKey() + ": " + entry.getValue())).setScore(score--);
@@ -95,8 +99,8 @@ public class ScoreboardManager extends IManager<HubPlugin> implements Listener {
     }
 
     private String pingColor(int ping) {
-        if (ping < 80) return "&a";
-        if (ping < 150) return "&e";
+        if (ping < PING_WARN_MS) return "&a";
+        if (ping < PING_BAD_MS) return "&e";
         return "&c";
     }
 

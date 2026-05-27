@@ -18,6 +18,9 @@ import java.util.Collection;
 public class OpSyncListener implements Listener {
 
     public static final String CHANNEL = "fr.isen:opsync";
+    private static final long SYNC_INITIAL_DELAY_TICKS = 200L;
+    private static final long SYNC_PERIOD_TICKS = 1200L;
+    private static final long OP_COMMAND_DELAY_TICKS = 2L;
 
     private final HubPlugin plugin;
     private BukkitTask syncTask;
@@ -33,7 +36,7 @@ public class OpSyncListener implements Listener {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 sendOpSync(player, player.getName(), player.isOp());
             }
-        }, 200L, 1200L);
+        }, SYNC_INITIAL_DELAY_TICKS, SYNC_PERIOD_TICKS);
     }
 
     public void shutdown() {
@@ -46,7 +49,7 @@ public class OpSyncListener implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         Bukkit.getScheduler().runTaskLater(plugin, () ->
-                sendOpSync(player, player.getName(), player.isOp()), 2L);
+                sendOpSync(player, player.getName(), player.isOp()), OP_COMMAND_DELAY_TICKS);
     }
 
     @EventHandler
@@ -63,7 +66,7 @@ public class OpSyncListener implements Listener {
         Bukkit.getScheduler().runTaskLater(plugin, () -> {
             sendOpSync(event.getPlayer(), targetPlayer, isOp);
             refreshTargetBoard(targetPlayer);
-        }, 2L);
+        }, OP_COMMAND_DELAY_TICKS);
     }
 
     @EventHandler
@@ -85,7 +88,7 @@ public class OpSyncListener implements Listener {
             }
             sendOpSync(online.iterator().next(), targetPlayer, isOp);
             refreshTargetBoard(targetPlayer);
-        }, 2L);
+        }, OP_COMMAND_DELAY_TICKS);
     }
 
     private void refreshTargetBoard(String playerName) {

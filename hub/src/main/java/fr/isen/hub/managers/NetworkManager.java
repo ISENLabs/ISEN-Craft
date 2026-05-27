@@ -48,8 +48,7 @@ public class NetworkManager extends IManager<HubPlugin> implements PluginMessage
                 // Prévu dans le protocole — pas d'action spécifique à ce stade
             }
         } catch (IOException e) {
-            plugin.logger.log("Erreur désérialisation message du network", "ERROR");
-            e.printStackTrace();
+            plugin.logger.logException("Erreur désérialisation message du network", e, "ERROR");
         }
     }
 
@@ -60,8 +59,7 @@ public class NetworkManager extends IManager<HubPlugin> implements PluginMessage
             out.writeUTF("REQUEST");
             vecteur.sendPluginMessage(plugin, "fr.isen:network", b.toByteArray());
         } catch (IOException e) {
-            plugin.logger.log("Erreur envoi REQUEST du network", "ERROR");
-            e.printStackTrace();
+            plugin.logger.logException("Erreur envoi REQUEST du network", e, "ERROR");
         }
     }
 }

@@ -56,8 +56,7 @@ public class HubManager extends IManager<HubPlugin> {
                 file.getParentFile().mkdirs();
                 file.createNewFile();
             } catch (IOException e) {
-                plugin.logger.log("&cImpossible de créer " + file.getPath());
-                e.printStackTrace();
+                plugin.logger.logException("Impossible de créer " + file.getPath(), e, "ERROR");
             }
         }
 
@@ -68,8 +67,7 @@ public class HubManager extends IManager<HubPlugin> {
         try {
             config.save(file);
         } catch (IOException e) {
-            plugin.logger.log("&cImpossible de sauvegarder " + file.getPath());
-            e.printStackTrace();
+            plugin.logger.logException("Impossible de sauvegarder " + file.getPath(), e, "ERROR");
         }
     }
 }

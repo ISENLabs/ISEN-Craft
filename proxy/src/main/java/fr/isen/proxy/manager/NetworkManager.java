@@ -49,8 +49,7 @@ public class NetworkManager extends IManager<ProxyPlugin> implements Listener {
 
             payload = b.toByteArray();
         } catch (IOException e) {
-            plugin.logger.log("Erreur envoi stats du network", "ERROR");
-            e.printStackTrace();
+            plugin.logger.logException("Erreur envoi stats du network", e, "ERROR");
             return;
         }
 
@@ -86,7 +85,7 @@ public class NetworkManager extends IManager<ProxyPlugin> implements Listener {
                 sendNetworkStats();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            plugin.logger.logException("Erreur désérialisation message network", e, "ERROR");
         }
     }
 }

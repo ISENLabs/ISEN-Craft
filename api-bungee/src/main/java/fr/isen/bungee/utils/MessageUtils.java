@@ -2,6 +2,7 @@ package fr.isen.bungee.utils;
 
 import fr.isen.bungee.command.BungeeSender;
 import fr.isen.common.command.IsenSender;
+import fr.isen.common.utils.MessageConstants;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -37,10 +38,8 @@ public class MessageUtils {
         ProxyServer.getInstance().broadcast(color(text));
     }
 
-    private static final int CLEAR_CHAT_LINES = 150;
-
     public static void clearChat() {
-        for (int i = 0; i < CLEAR_CHAT_LINES; i++) {
+        for (int i = 0; i < MessageConstants.CLEAR_CHAT_LINES; i++) {
             broadcast("");
         }
     }
