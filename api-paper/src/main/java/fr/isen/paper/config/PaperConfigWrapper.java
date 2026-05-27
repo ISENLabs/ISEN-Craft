@@ -49,4 +49,14 @@ public class PaperConfigWrapper extends YamlConfigWrapper {
         if (config == null) return def;
         return config.getBoolean(path, def);
     }
+
+    public java.util.List<java.util.Map<?, ?>> getMapList(String path) {
+        if (config == null) return java.util.List.of();
+        return config.getMapList(path);
+    }
+
+    public java.util.List<String> getStringList(String path) {
+        if (config == null) return java.util.List.of();
+        return config.getStringList(path);
+    }
 }

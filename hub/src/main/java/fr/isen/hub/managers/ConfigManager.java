@@ -38,4 +38,12 @@ public class ConfigManager extends IManager<HubPlugin> {
     public boolean getBoolean(String path, boolean def) {
         return config.getBoolean(path, def);
     }
+
+    public java.util.List<java.util.Map<?, ?>> getMapList(String path) {
+        return config.getMapList(path);
+    }
+
+    public java.util.List<String> getStringList(String path) {
+        return config.getStringList(path);
+    }
 }

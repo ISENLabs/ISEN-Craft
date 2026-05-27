@@ -14,7 +14,9 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -22,8 +24,6 @@ public class NavigationManager extends IManager<HubPlugin> {
 
     public static final String KEY_ITEM = "isen_hub_item";
     private static final int COMPASS_SLOT = 4;
-    private static final int SURVIE_MENU_SLOT = 11;
-    private static final int CREATIF_MENU_SLOT = 15;
     private final BungeeUtils bungeeUtils;
     private final Map<UUID, Long> cooldowns = new HashMap<>();
 
@@ -48,54 +48,48 @@ public class NavigationManager extends IManager<HubPlugin> {
     }
 
     public void openMenu(Player player) {
-        Inventory inv = Bukkit.createInventory(null, 27, LegacyComponentSerializer.legacySection().deserialize("§7ISEN - Menu"));
+        String titleRaw = plugin.configManager.getString("navigation.menu-title", "&7ISEN - Menu");
+        int size = plugin.configManager.getInt("navigation.menu-size", 27);
 
-        String survieCount = MessageUtils.p(player, "%bungee_survie%");
-        ItemStack survivalItem = new ItemBuilder(Material.DIAMOND_HOE)
-                .name("&a&lSurvie")
-                .lore(
-                    "&7Mode de jeu immersif",
-                    " ",
-                    "&8┃ &fExplorez un monde vaste, récoltez",
-                    "&8┃ &fdes ressources et bâtissez votre ville.",
-                    " ",
-                    "&8┃ &fVersion &8: &b&l1.21",
-                    "&8┃ &fConnectés &8: &a" + survieCount,
-                    " ",
-                    "&2▶ &aCliquez pour rejoindre."
-                )
-                .storeString(plugin, KEY_ITEM, "survie")
-                .enchant(Enchantment.UNBREAKING, 1)
-                .hideAllAttributes()
-                .build();
+        Inventory inv = Bukkit.createInventory(null, size,
+                LegacyComponentSerializer.legacyAmpersand().deserialize(titleRaw));
 
-        String creatifCount = MessageUtils.p(player, "%bungee_creatif%");
-        ItemStack pvpItem = new ItemBuilder(Material.GRASS_BLOCK)
-                .name("&9&lCréatif")
-                .lore(
-                "&7Mode de jeu artistique",
-                        " ",
-                        "&8┃ &fLaissez libre cours à votre imagination",
-                        "&8┃ &fsur des parcelles géantes et protégées.",
-                        " ",
-                        "&8┃ &fVersion &8: &b&l1.21",
-                        "&8┃ &fConnectés &8: &a" + creatifCount,
-                        " ",
-                        "&2▶ &cMAINTENANCE"
-                )
-                .storeString(plugin, KEY_ITEM, "creatif")
-                .enchant(Enchantment.UNBREAKING, 1)
-                .hideAllAttributes()
-                .build();
+        List<Map<?, ?>> servers = plugin.configManager.getMapList("navigation.servers");
+        for (Map<?, ?> entry : servers) {
+            String key = String.valueOf(entry.get("key"));
+            Object slotObj = entry.get("slot");
+            int slot = slotObj instanceof Number ? ((Number) slotObj).intValue() : 0;
+            String materialName = entry.containsKey("material") ? String.valueOf(entry.get("material")) : "PAPER";
+            String displayName = entry.containsKey("display-name") ? String.valueOf(entry.get("display-name")) : key;
 
-        inv.setItem(SURVIE_MENU_SLOT, survivalItem);
-        inv.setItem(CREATIF_MENU_SLOT, pvpItem);
+            @SuppressWarnings("unchecked")
+            List<String> loreRaw = entry.containsKey("lore") ? (List<String>) entry.get("lore") : List.of();
 
-        ItemStack filler = new ItemBuilder(Material.GRAY_STAINED_GLASS_PANE).name(" ").build();
-        for (int i = 0; i < inv.getSize(); i++) {
-            if (inv.getItem(i) == null) {
-                inv.setItem(i, filler);
+            Material material = Material.matchMaterial(materialName);
+            if (material == null) material = Material.PAPER;
+
+            List<String> lore = new ArrayList<>();
+            for (String line : loreRaw) {
+                lore.add(MessageUtils.p(player, line));
             }
+
+            ItemStack item = new ItemBuilder(material)
+                    .name(displayName)
+                    .lore(lore)
+                    .storeString(plugin, KEY_ITEM, key)
+                    .enchant(Enchantment.UNBREAKING, 1)
+                    .hideAllAttributes()
+                    .build();
+
+            if (slot >= 0 && slot < size) inv.setItem(slot, item);
+        }
+
+        String fillerMatName = plugin.configManager.getString("navigation.filler-material", "GRAY_STAINED_GLASS_PANE");
+        Material fillerMat = Material.matchMaterial(fillerMatName);
+        if (fillerMat == null) fillerMat = Material.GRAY_STAINED_GLASS_PANE;
+        ItemStack filler = new ItemBuilder(fillerMat).name(" ").build();
+        for (int i = 0; i < inv.getSize(); i++) {
+            if (inv.getItem(i) == null) inv.setItem(i, filler);
         }
 
         player.openInventory(inv);
