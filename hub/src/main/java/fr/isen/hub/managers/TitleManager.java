@@ -32,8 +32,8 @@ public class TitleManager extends IManager<HubPlugin> {
             String formattedTitle = MessageUtils.p(player, titleRaw).replace("%player%", player.getName());
             String formattedSubtitle = MessageUtils.p(player, subtitleRaw).replace("%player%", player.getName());
 
-            Component titleComp = (titleRaw == null || titleRaw.isEmpty()) ? Component.empty() : LegacyComponentSerializer.legacyAmpersand().deserialize(formattedTitle);
-            Component subtitleComp = (subtitleRaw == null || subtitleRaw.isEmpty()) ? Component.empty() : LegacyComponentSerializer.legacyAmpersand().deserialize(formattedSubtitle);
+            Component titleComp = LegacyComponentSerializer.legacyAmpersand().deserialize(formattedTitle);
+            Component subtitleComp = LegacyComponentSerializer.legacyAmpersand().deserialize(formattedSubtitle);
 
             Title.Times times = Title.Times.times(
                     Duration.ofMillis(fadeIn * 50L),
