@@ -7,6 +7,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 
 public class PaperConfigWrapper extends YamlConfigWrapper {
 
@@ -30,6 +33,12 @@ public class PaperConfigWrapper extends YamlConfigWrapper {
     public void load() throws IOException {
         saveDefaults();
         config = YamlConfiguration.loadConfiguration(new File(dataFolder, fileName));
+        InputStream resource = plugin.getResource(fileName);
+        if (resource != null) {
+            YamlConfiguration bundled = YamlConfiguration.loadConfiguration(
+                    new InputStreamReader(resource, StandardCharsets.UTF_8));
+            config.setDefaults(bundled);
+        }
     }
 
     @Override
@@ -48,5 +57,15 @@ public class PaperConfigWrapper extends YamlConfigWrapper {
     public boolean getBoolean(String path, boolean def) {
         if (config == null) return def;
         return config.getBoolean(path, def);
+    }
+
+    public java.util.List<java.util.Map<?, ?>> getMapList(String path) {
+        if (config == null) return java.util.List.of();
+        return config.getMapList(path);
+    }
+
+    public java.util.List<String> getStringList(String path) {
+        if (config == null) return java.util.List.of();
+        return config.getStringList(path);
     }
 }

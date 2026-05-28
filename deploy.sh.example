@@ -1,0 +1,113 @@
+#!/bin/bash
+set -euo pipefail
+
+MINECRAFT_DIR="$(cd "$(dirname "$0")" && pwd)"
+PROJECT_DIR="${PROJECT_DIR:-${1:-}}"
+MC_VERSION="1.21"
+
+if [ -z "$PROJECT_DIR" ]; then
+    echo "Erreur : chemin du projet manquant."
+    echo "Usage : $0 <chemin-vers-projet>"
+    echo "   ou : PROJECT_DIR=/chemin/vers/projet $0"
+    exit 1
+fi
+
+PROJECT_DIR="$(cd "$PROJECT_DIR" && pwd)"
+
+if ! command -v curl &> /dev/null; then
+    echo "DÉPENDANCE MANQUANTE : curl est nécessaire. Installation..."
+    sudo apt update && sudo apt install -y curl
+fi
+
+echo "=== 1. Récupération dynamique des derniers builds PaperMC ($MC_VERSION) ==="
+
+PAPER_LATEST_BUILD=$(curl -sf "https://api.papermc.io/v2/projects/paper/versions/$MC_VERSION" | grep -oP '"builds":\s*\[.*?\]' | grep -oP '\d+' | tail -n 1)
+if [ -z "$PAPER_LATEST_BUILD" ]; then
+    echo "Erreur lors de la récupération du build Paper. Version de secours utilisée (130)."
+    PAPER_LATEST_BUILD="130"
+fi
+
+PAPER_JAR_NAME="paper-$MC_VERSION-$PAPER_LATEST_BUILD.jar"
+PAPER_URL="https://api.papermc.io/v2/projects/paper/versions/$MC_VERSION/builds/$PAPER_LATEST_BUILD/downloads/$PAPER_JAR_NAME"
+
+if [ ! -f "$MINECRAFT_DIR/hub/paper.jar" ] || [ "$(cat "$MINECRAFT_DIR/hub/current_build.txt" 2>/dev/null)" != "$PAPER_LATEST_BUILD" ]; then
+    echo "Nouveau build Paper trouvé (#$PAPER_LATEST_BUILD). Téléchargement..."
+    mkdir -p "$MINECRAFT_DIR/hub"
+    if curl -f -o "$MINECRAFT_DIR/hub/paper.jar" "$PAPER_URL"; then
+        echo "$PAPER_LATEST_BUILD" > "$MINECRAFT_DIR/hub/current_build.txt"
+    else
+        echo "Erreur : téléchargement Paper échoué."
+        exit 1
+    fi
+else
+    echo "Paper est déjà à jour (Build #$PAPER_LATEST_BUILD)."
+fi
+
+WATERFALL_LATEST_BUILD=$(curl -sf "https://api.papermc.io/v2/projects/waterfall/versions/$MC_VERSION" | grep -oP '"builds":\s*\[.*?\]' | grep -oP '\d+' | tail -n 1)
+if [ -z "$WATERFALL_LATEST_BUILD" ]; then
+    echo "Erreur lors de la récupération du build Waterfall. Version de secours utilisée (571)."
+    WATERFALL_LATEST_BUILD="571"
+fi
+
+WATERFALL_JAR_NAME="waterfall-$MC_VERSION-$WATERFALL_LATEST_BUILD.jar"
+WATERFALL_URL="https://api.papermc.io/v2/projects/waterfall/versions/$MC_VERSION/builds/$WATERFALL_LATEST_BUILD/downloads/$WATERFALL_JAR_NAME"
+
+if [ ! -f "$MINECRAFT_DIR/proxy/waterfall.jar" ] || [ "$(cat "$MINECRAFT_DIR/proxy/current_build.txt" 2>/dev/null)" != "$WATERFALL_LATEST_BUILD" ]; then
+    echo "Nouveau build Waterfall trouvé (#$WATERFALL_LATEST_BUILD). Téléchargement..."
+    mkdir -p "$MINECRAFT_DIR/proxy"
+    if curl -f -o "$MINECRAFT_DIR/proxy/waterfall.jar" "$WATERFALL_URL"; then
+        echo "$WATERFALL_LATEST_BUILD" > "$MINECRAFT_DIR/proxy/current_build.txt"
+    else
+        echo "Erreur : téléchargement Waterfall échoué."
+        exit 1
+    fi
+else
+    echo "Waterfall est déjà à jour (Build #$WATERFALL_LATEST_BUILD)."
+fi
+
+
+echo "=== 2. Compilation du projet ISEN-Craft ==="
+
+cd "$PROJECT_DIR" || exit 1
+chmod +x gradlew
+if ! ./gradlew build; then
+    echo "Erreur : la compilation a échoué. Déploiement annulé."
+    exit 1
+fi
+
+
+echo "=== 3. Déploiement des plugins ==="
+
+mkdir -p "$MINECRAFT_DIR/hub/plugins"
+mkdir -p "$MINECRAFT_DIR/proxy/plugins"
+rm -f "$MINECRAFT_DIR/hub/plugins/ISEN-Craft-Hub.jar"
+rm -f "$MINECRAFT_DIR/proxy/plugins/ISEN-Craft-Proxy.jar"
+cp hub/build/libs/hub-*.jar "$MINECRAFT_DIR/hub/plugins/ISEN-Craft-Hub.jar" 2>/dev/null || { echo "Erreur : JAR Hub non trouvé"; exit 1; }
+cp proxy/build/libs/proxy-*.jar "$MINECRAFT_DIR/proxy/plugins/ISEN-Craft-Proxy.jar" 2>/dev/null || { echo "Erreur : JAR Proxy non trouvé"; exit 1; }
+
+
+echo "=== 4. Lancement des terminaux séparés ==="
+
+cat > "$MINECRAFT_DIR/proxy/start.sh" << 'EOF'
+#!/bin/bash
+cd "$(dirname "$0")"
+java -Xms512M -Xmx512M -jar waterfall.jar
+exec bash
+EOF
+chmod +x "$MINECRAFT_DIR/proxy/start.sh"
+
+cat > "$MINECRAFT_DIR/hub/start.sh" << 'EOF'
+#!/bin/bash
+cd "$(dirname "$0")"
+java -Xms1G -Xmx2G -jar paper.jar --nogui
+exec bash
+EOF
+chmod +x "$MINECRAFT_DIR/hub/start.sh"
+
+PROXY_WIN_PATH=$(wslpath -w "$MINECRAFT_DIR/proxy")
+HUB_WIN_PATH=$(wslpath -w "$MINECRAFT_DIR/hub")
+
+wt.exe nt -d "$PROXY_WIN_PATH" bash start.sh \; \
+       nt -d "$HUB_WIN_PATH" bash start.sh
+
+echo "Déploiement et lancement terminés !"

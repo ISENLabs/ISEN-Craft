@@ -6,3 +6,15 @@ author: ISENLabs
 commands:
   network:
     description: "Network command"
+  ban:
+    description: "Bannir un joueur du réseau"
+  unban:
+    description: "Débannir un joueur du réseau"
+  mute:
+    description: "Muter un joueur"
+  unmute:
+    description: "Démuter un joueur"
+  find:
+    description: "Trouver un joueur sur le réseau"
+  kick:
+    description: "Expulser un joueur du réseau"

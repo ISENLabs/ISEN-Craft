@@ -6,9 +6,13 @@ import fr.isen.hub.managers.ConfigManager;
 import fr.isen.hub.managers.HubManager;
 import fr.isen.hub.managers.LogManager;
 import fr.isen.hub.managers.NavigationManager;
+import fr.isen.hub.managers.PlayerProfileManager;
+import fr.isen.hub.command.profil.ProfilCommand;
 import fr.isen.hub.managers.NetworkManager;
+import fr.isen.hub.listeners.OpSyncListener;
 import fr.isen.hub.managers.ProtectionsManager;
 import fr.isen.hub.managers.ScoreboardManager;
+import fr.isen.hub.managers.TabListManager;
 import fr.isen.hub.managers.TitleManager;
 import fr.isen.paper.command.PaperCommandBridge;
 import fr.isen.paper.logger.PaperLogger;
@@ -26,15 +30,21 @@ public class HubPlugin extends JavaPlugin {
     private HubManager hubManager;
     private NavigationManager navigationManager;
     private NetworkManager networkManager;
-    private ScoreboardManager scoreboardManager;
+    public ScoreboardManager scoreboardManager;
+    public PlayerProfileManager playerProfileManager;
+    public TabListManager tabListManager;
+    private OpSyncListener opSyncListener;
 
     public IsenLogger logger;
     private BungeeUtils bungeeUtils;
 
     @Override
     public void onDisable() {
+        if (tabListManager != null) tabListManager.shutdown();
+        if (opSyncListener != null) opSyncListener.shutdown();
         getServer().getMessenger().unregisterIncomingPluginChannel(this, "fr.isen:network");
         getServer().getMessenger().unregisterOutgoingPluginChannel(this, "fr.isen:network");
+        getServer().getMessenger().unregisterOutgoingPluginChannel(this, "fr.isen:opsync");
         if (logger != null) {
             logger.log("Plugin disabled", "INFO");
         }
@@ -48,12 +58,18 @@ public class HubPlugin extends JavaPlugin {
         this.configManager = new ConfigManager(this);
         this.titleManager = new TitleManager(this);
         this.logManager = new LogManager(this);
+        this.playerProfileManager = new PlayerProfileManager(this);
+        registerCommand("profil", new ProfilCommand(this));
         this.protectionsManager = new ProtectionsManager(this);
         this.hubManager = new HubManager(this);
         this.navigationManager = new NavigationManager(this, bungeeUtils);
         this.scoreboardManager = new ScoreboardManager(this);
         this.networkManager = new NetworkManager(this, scoreboardManager);
         this.scoreboardManager.setNetworkManager(this.networkManager);
+        this.tabListManager = new TabListManager(this);
+
+        this.opSyncListener = new OpSyncListener(this);
+        registerListener(this.opSyncListener);
 
         logger.log("Plugin enabled", "INFO");
     }

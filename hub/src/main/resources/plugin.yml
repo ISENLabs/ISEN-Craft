@@ -20,6 +20,9 @@ commands:
   isencraft:
     description: "ISEN-Craft admin command"
     usage: "/isencraft [args]"
+  profil:
+    description: "Affiche le profil d'un joueur"
+    usage: "/profil [joueur]"
 
 permissions:
   hub.admin:

@@ -15,14 +15,7 @@ public class VoidListener implements Listener {
 
     @EventHandler
     public void onFall(PlayerMoveEvent event) {
-        if (
-                event.getFrom().getBlockX() == event.getTo().getBlockX() &&
-                event.getFrom().getBlockY() == event.getTo().getBlockY() &&
-                event.getFrom().getBlockZ() == event.getTo().getBlockZ()
-        ) {
-            return;
-        }
-
+        if (!event.hasChangedPosition()) return;
         if (event.getTo().getY() <= -90) {
             manager.teleportToSpawn(event.getPlayer());
         }

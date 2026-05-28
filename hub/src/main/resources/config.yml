@@ -2,9 +2,9 @@ messages:
   welcome: "&aBonjour, %player%! Bienvenue sur ISEN-Craft."
   teleport: "&2Téléportation vers le spawn..."
 
-
 settings:
   spawn-on-join: true
+  navigation-cooldown-seconds: 3
 
 welcome-title:
   title: "Bienvenue sur ISEN-Craft"
@@ -12,3 +12,50 @@ welcome-title:
   fade-in: 10
   stay: 40
   fade-out: 10
+
+navigation:
+  menu-title: "&7ISEN - Menu"
+  menu-size: 27
+  filler-material: GRAY_STAINED_GLASS_PANE
+  servers:
+    - key: survie
+      slot: 11
+      material: DIAMOND_HOE
+      display-name: "&a&lSurvie"
+      lore:
+        - "&7Mode de jeu immersif"
+        - " "
+        - "&8┃ &fExplorez un monde vaste, récoltez"
+        - "&8┃ &fdes ressources et bâtissez votre ville."
+        - " "
+        - "&8┃ &fVersion &8: &b&l1.21"
+        - "&8┃ &fConnectés &8: &a%bungee_survie%"
+        - " "
+        - "&2▶ &aCliquez pour rejoindre."
+    - key: creatif
+      slot: 15
+      material: GRASS_BLOCK
+      display-name: "&9&lCréatif"
+      lore:
+        - "&7Mode de jeu artistique"
+        - " "
+        - "&8┃ &fLaissez libre cours à votre imagination"
+        - "&8┃ &fsur des parcelles géantes et protégées."
+        - " "
+        - "&8┃ &fVersion &8: &b&l1.21"
+        - "&8┃ &fConnectés &8: &a%bungee_creatif%"
+        - " "
+        - "&2▶ &cMAINTENANCE"
+
+tab-list:
+  enabled: true
+  header:
+    - ""
+    - "&6&l⚡ &e&lISEN-Craft &6&l⚡"
+    - "&7{online} joueurs connectés"
+    - ""
+  footer:
+    - ""
+    - "&8mc.isenlabs.fr"
+    - ""
+  refresh-ticks: 40

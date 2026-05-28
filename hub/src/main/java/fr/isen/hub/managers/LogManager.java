@@ -3,6 +3,7 @@ package fr.isen.hub.managers;
 import fr.isen.common.config.IManager;
 import fr.isen.hub.HubPlugin;
 import fr.isen.hub.listeners.ConnectionListener;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.io.BufferedWriter;
@@ -32,8 +33,7 @@ public class LogManager extends IManager<HubPlugin> {
             try {
                 logFile.createNewFile();
             } catch (java.io.IOException e) {
-                plugin.logger.log("Could not create connections.log file!", "ERROR");
-                e.printStackTrace();
+                plugin.logger.logException("Could not create connections.log", e, "ERROR");
             }
         }
 
@@ -46,20 +46,19 @@ public class LogManager extends IManager<HubPlugin> {
              PrintWriter out = new PrintWriter(bw)) {
             out.println(line);
         } catch (java.io.IOException e) {
-            plugin.logger.log("Could not write to connections.log!", "ERROR");
-            e.printStackTrace();
+            plugin.logger.logException("Could not write to connections.log", e, "ERROR");
         }
     }
 
     public void logJoin(Player player) {
         String timestamp = LocalDateTime.now(ZoneId.systemDefault()).format(formatter);
         String logLine = String.format("[%s] JOIN | %s | %s", timestamp, player.getName(), player.getUniqueId().toString());
-        writeLog(logLine);
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> writeLog(logLine));
     }
 
     public void logQuit(Player player) {
         String timestamp = LocalDateTime.now(ZoneId.systemDefault()).format(formatter);
         String logLine = String.format("[%s] QUIT | %s | %s", timestamp, player.getName(), player.getUniqueId().toString());
-        writeLog(logLine);
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> writeLog(logLine));
     }
 }

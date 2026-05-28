@@ -3,6 +3,7 @@ package fr.isen.paper.utils;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import fr.isen.common.utils.MessageConstants;
 import fr.isen.paper.command.PaperSender;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
@@ -51,10 +52,8 @@ public class MessageUtils {
         text.forEach(MessageUtils::broadcast);
     }
 
-    private static final int CLEAR_CHAT_LINES = 150;
-
     public static void clearChat() {
-        for (int i = 0; i < CLEAR_CHAT_LINES; i++) {
+        for (int i = 0; i < MessageConstants.CLEAR_CHAT_LINES; i++) {
             broadcast("");
         }
     }

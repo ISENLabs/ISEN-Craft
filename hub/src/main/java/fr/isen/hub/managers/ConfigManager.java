@@ -17,8 +17,7 @@ public class ConfigManager extends IManager<HubPlugin> {
         try {
             config.load();
         } catch (IOException e) {
-            plugin.logger.log("&cImpossible de charger la configuration.", "ERROR");
-            e.printStackTrace();
+            plugin.logger.logException("Impossible de charger la configuration", e, "ERROR");
         }
         plugin.registerCommand("isencraft", new IsenCraftReloadCommand(this));
     }
@@ -38,5 +37,13 @@ public class ConfigManager extends IManager<HubPlugin> {
 
     public boolean getBoolean(String path, boolean def) {
         return config.getBoolean(path, def);
+    }
+
+    public java.util.List<java.util.Map<?, ?>> getMapList(String path) {
+        return config.getMapList(path);
+    }
+
+    public java.util.List<String> getStringList(String path) {
+        return config.getStringList(path);
     }
 }

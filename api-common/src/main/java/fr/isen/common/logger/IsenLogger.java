@@ -50,6 +50,11 @@ public abstract class IsenLogger {
         print("[" + pluginName + "] " + message);
     }
 
+    public void logException(String context, Throwable e, String prefix) {
+        String detail = e.getMessage() != null ? e.getMessage() : e.getClass().getName();
+        log(context + " — " + e.getClass().getSimpleName() + ": " + detail, prefix);
+    }
+
     public void disable(String prefix) {
         prefixPolicies.remove(prefix);
         prefixPolicies.put(prefix, false);

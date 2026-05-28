@@ -37,7 +37,7 @@ public class BungeeConfigWrapper extends YamlConfigWrapper {
                 Files.copy(in, file.toPath());
             } catch (IOException e) {
                 plugin.getLogger().severe("[BungeeConfigWrapper] Could not save default " + fileName + ": " + e.getMessage());
-                e.printStackTrace();
+                // severe already logged above
             }
         }
     }
