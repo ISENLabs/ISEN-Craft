@@ -19,6 +19,7 @@ public class MessageUtils {
     }
 
     public static String p(Player player, String text) {
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null) return text;
         return PlaceholderAPI.setPlaceholders(player, text);
     }
 
