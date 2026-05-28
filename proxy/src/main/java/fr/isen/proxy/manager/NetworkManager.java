@@ -2,6 +2,7 @@ package fr.isen.proxy.manager;
 
 import fr.isen.common.config.IManager;
 import fr.isen.proxy.ProxyPlugin;
+import fr.isen.proxy.command.network.NetworkCommand;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.PlayerDisconnectEvent;
@@ -26,6 +27,7 @@ public class NetworkManager extends IManager<ProxyPlugin> implements Listener {
         this.configManager = configManager;
         ProxyServer.getInstance().registerChannel("fr.isen:network");
         ProxyServer.getInstance().getPluginManager().registerListener(plugin, this);
+        plugin.registerCommand("network", new NetworkCommand(plugin));
     }
 
     private void sendNetworkStats() {
