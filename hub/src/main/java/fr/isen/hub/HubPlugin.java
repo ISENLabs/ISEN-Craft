@@ -33,6 +33,8 @@ public class HubPlugin extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        getServer().getMessenger().unregisterIncomingPluginChannel(this, "fr.isen:network");
+        getServer().getMessenger().unregisterOutgoingPluginChannel(this, "fr.isen:network");
         if (logger != null) {
             logger.log("Plugin disabled", "INFO");
         }
